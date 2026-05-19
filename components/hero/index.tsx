@@ -2,18 +2,24 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { BackgroundBeams } from "./background-beams";
-import { Sparkles } from "./sparkles";
-import { TextGenerate } from "./text-generate";
-import { Subheadline } from "./subheadline";
-import { Mascot } from "./mascot";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { AuroraBlob } from "./aurora-blob";
+import { Watermark } from "./watermark";
+import { OrbitField } from "./orbit-field";
+import { FlickeringGrid } from "@/components/ui/flickering-grid";
+import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
+import { AuroraText } from "@/components/ui/aurora-text";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 export function Hero({ variant }: { variant: "A" | "B" }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
+
+  const words1 = ["Belajar", "Mandarin", "privat"];
+  const words2 = ["Laoshi", "profesional"];
 
   return (
     <motion.section
@@ -21,48 +27,111 @@ export function Hero({ variant }: { variant: "A" | "B" }) {
       style={{ opacity, y }}
       className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pt-32"
     >
-      <BackgroundBeams />
-      <Sparkles density={80} className="absolute inset-0 -z-10" />
+      {/* layer 1 — cream base already on body */}
+      {/* layer 2 — aurora blob */}
+      <AuroraBlob />
+      {/* layer 3 — flickering grid */}
+      <FlickeringGrid
+        className="absolute inset-0 -z-10 opacity-70 [mask-image:radial-gradient(circle_at_center,black_30%,transparent_75%)]"
+        squareSize={3}
+        gridGap={8}
+        flickerChance={0.25}
+        color="rgb(143,174,109)"
+        maxOpacity={0.45}
+      />
+      {/* layer 4 — 华 watermark */}
+      <Watermark />
+      {/* layer 5 — orbiting circles top right */}
+      <OrbitField />
 
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-sage/30 bg-cream/70 px-4 py-1.5 text-xs font-medium text-sage backdrop-blur"
-        >
-          <span className="h-2 w-2 animate-pulse rounded-full bg-sage" />
-          Les Mandarin Privat 1-on-1
-        </motion.div>
+        <BlurFade delay={0.1} direction="down">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-sage/30 bg-white/70 px-4 py-1.5 text-xs font-semibold backdrop-blur">
+            <span className="relative grid h-2 w-2 place-items-center">
+              <span className="absolute h-full w-full animate-ping rounded-full bg-sage" />
+              <span className="relative h-1.5 w-1.5 rounded-full bg-sage" />
+            </span>
+            <AnimatedGradientText className="bg-clip-text text-transparent" colors={["#4A6B3A", "#FFD700", "#4A6B3A"]}>
+              Les Mandarin Privat 1-on-1
+            </AnimatedGradientText>
+          </div>
+        </BlurFade>
 
-        <TextGenerate
-          words="Belajar Mandarin privat bareng Laoshi profesional"
-          className="font-display text-4xl font-bold leading-[1.1] text-ink md:text-6xl lg:text-7xl"
-        />
+        <h1 className="font-display text-[clamp(2.4rem,7vw,5.4rem)] font-black leading-[1.02] tracking-tight text-ink-deep">
+          {words1.map((w, i) => (
+            <BlurFade key={`a-${i}`} delay={0.25 + i * 0.08} className="mr-3 inline-block">
+              {w}
+            </BlurFade>
+          ))}
+          <BlurFade delay={0.55} className="mr-3 inline-block">
+            <span className="font-serif text-[0.85em] italic font-light text-muted">bareng</span>
+          </BlurFade>
+          <br className="hidden md:block" />
+          {words2.map((w, i) => (
+            <BlurFade key={`b-${i}`} delay={0.7 + i * 0.1} className="mr-3 inline-block">
+              <AuroraText speed={1.2}>{w}</AuroraText>
+            </BlurFade>
+          ))}
+        </h1>
 
-        <Subheadline
-          text="Kurikulum disesuaikan tujuanmu. Bonus stack senilai Rp 868.000+ termasuk gratis."
-          className="mx-auto mt-6 max-w-2xl text-base text-ink/70 md:text-xl"
-        />
+        <BlurFade delay={1.0} direction="up">
+          <p className="mx-auto mt-6 max-w-2xl text-base text-muted md:text-xl">
+            Kurikulum disesuaikan tujuanmu. Bonus stack senilai{" "}
+            <span className="font-semibold text-forest">Rp 868.000+</span> termasuk gratis.
+          </p>
+        </BlurFade>
 
-        <Mascot />
+        <BlurFade delay={1.2} direction="up">
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href="#cta">
+              <ShimmerButton background="#8FAE6D" shimmerColor="#F6E3A1" className="h-14 px-7 text-base">
+                {variant === "B" ? "Reveal harga" : "Isi form 30 detik"}
+                <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </ShimmerButton>
+            </a>
+            <a
+              href="#phone"
+              className="group relative inline-flex h-14 items-center gap-2 overflow-hidden rounded-full border border-sage/40 bg-white px-7 text-base font-medium text-ink-deep shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-soft-lg"
+            >
+              Lihat cara kerja
+              <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+            </a>
+          </div>
+        </BlurFade>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
-        >
-          <a href="#cta">
-            <Button size="lg" variant="primary">
-              {variant === "B" ? "Lihat Pricing →" : "Isi form 30 detik →"}
-            </Button>
-          </a>
-          <a href="#phone">
-            <Button size="lg" variant="outline">Lihat cara kerja</Button>
-          </a>
-        </motion.div>
+        {/* trust strip */}
+        <BlurFade delay={1.4} direction="up">
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-muted">
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-sage" />
+              500+ siswa aktif
+            </span>
+            <span className="hidden sm:inline">·</span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-sage" />
+              Native Laoshi
+            </span>
+            <span className="hidden sm:inline">·</span>
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-sage" />
+              Garansi 7 hari
+            </span>
+          </div>
+        </BlurFade>
       </div>
+
+      {/* scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 0.6 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <a href="#phone" className="flex flex-col items-center gap-1 text-xs uppercase tracking-[0.3em] text-muted hover:text-ink">
+          <span>Scroll</span>
+          <ChevronDown className="h-4 w-4 animate-bounce" />
+        </a>
+      </motion.div>
     </motion.section>
   );
 }
