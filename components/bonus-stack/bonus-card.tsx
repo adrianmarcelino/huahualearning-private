@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { formatRupiah } from "@/lib/utils";
+import { useProximityLift } from "@/lib/proximity-lift";
 
 export function BonusCard({
   title,
@@ -20,13 +22,17 @@ export function BonusCard({
   featured?: boolean;
   badge?: string;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { style } = useProximityLift(ref, 220, 3);
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.7, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6 }}
+      style={style}
       className={
         "relative h-full pt-4 " + (featured ? "lg:scale-[1.04]" : "")
       }
