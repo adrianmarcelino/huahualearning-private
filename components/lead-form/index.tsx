@@ -1,14 +1,14 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Check, Loader2 } from "lucide-react";
 import { Radio } from "./radio";
+import { FloatingInput, FloatingTextarea } from "./floating-input";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { submitLead, genLeadId, isValidIndoPhone } from "@/lib/apps-script";
-import { Check } from "lucide-react";
 
 const STEPS = [
   {
@@ -56,13 +56,11 @@ export function LeadForm() {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [err, setErr] = useState("");
-
-  const total = STEPS.length + 1; // + contact
-  const progress = Math.min(step, total) / total;
+  const total = STEPS.length + 1;
 
   const next = (val: string) => {
     setA((x) => ({ ...x, [STEPS[step].key]: val }));
-    setTimeout(() => setStep((s) => s + 1), 250);
+    setTimeout(() => setStep((s) => s + 1), 280);
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -89,76 +87,53 @@ export function LeadForm() {
     } catch {}
     setSubmitting(false);
     setDone(true);
-    confetti({ particleCount: 120, spread: 100, origin: { y: 0.6 }, colors: ["#8FAE6D", "#F6E3A1", "#FBF4EA"] });
+    confetti({
+      particleCount: 180,
+      spread: 110,
+      startVelocity: 38,
+      origin: { y: 0.55 },
+      colors: ["#8FAE6D", "#4A6B3A", "#F6E3A1", "#FFD700"]
+    });
   };
 
-  if (done) {
-    return (
-      <section id="cta" className="relative bg-sage/10 py-32">
-        <div className="container mx-auto max-w-xl px-4 text-center">
-          <motion.div
-            initial={{ scale: 0, rotate: -30 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 240, damping: 14 }}
-            className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-sage text-cream"
-          >
-            <Check className="h-10 w-10" />
-          </motion.div>
-          <h2 className="mt-6 font-display text-3xl font-bold text-ink md:text-4xl">
-            Terkirim! 🐼
-          </h2>
-          <p className="mt-3 text-lg text-ink/70">
-            Tim Huahua bakal WA kamu max 30 menit ya.
-          </p>
-          <a
-            href="https://wa.me/6281939304002"
-            className="mt-6 inline-flex rounded-full bg-sage px-6 py-3 font-medium text-cream"
-          >
-            Atau chat langsung di WA →
-          </a>
-        </div>
-      </section>
-    );
-  }
+  if (done) return <SuccessScreen />;
 
   return (
-    <section id="cta" className="relative bg-cream/80 py-32">
+    <section id="cta" className="relative bg-cream py-32">
       <div className="container mx-auto max-w-2xl px-4">
         <div className="text-center">
-          <h2 className="font-display text-4xl font-bold text-ink md:text-5xl">Daftar dalam 30 detik</h2>
-          <p className="mt-3 text-ink/70">Tim Huahua bakal WA kamu max 30 menit setelah submit.</p>
+          <AnimatedGradientText className="font-display text-4xl font-black md:text-5xl" colors={["#8FAE6D", "#4A6B3A", "#FFD700", "#8FAE6D"]}>
+            Daftar dalam 30 detik
+          </AnimatedGradientText>
+          <p className="mt-3 text-lg text-muted">Tim Huahua bakal WA kamu max 30 menit setelah submit.</p>
         </div>
 
-        <div className="mt-10 rounded-3xl bg-cream p-6 shadow-xl ring-1 ring-ink/10 md:p-10">
-          {/* progress */}
-          <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
-            <motion.div
-              layout
-              animate={{ width: `${progress * 100}%` }}
-              transition={{ type: "spring", stiffness: 180, damping: 24 }}
-              className="h-full rounded-full bg-gradient-to-r from-sage to-gold"
-            />
-          </div>
+        <div className="mt-12 rounded-[2rem] border border-sage/10 bg-white p-7 shadow-soft-lg md:p-12">
+          <DotProgress current={step} total={total} />
 
           <AnimatePresence mode="wait">
             {step < STEPS.length ? (
               <motion.div
-                key={step}
-                initial={{ opacity: 0, x: 20 }}
+                key={`q${step}`}
+                initial={{ opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-8"
               >
-                <div className="text-xs font-bold uppercase tracking-widest text-sage">
-                  Pertanyaan {step + 1} / {STEPS.length + 1}
+                <div className="text-xs font-semibold uppercase tracking-[0.25em] text-sage">
+                  Pertanyaan {step + 1} / {total}
                 </div>
-                <h3 className="mt-2 font-display text-2xl font-bold text-ink md:text-3xl">{STEPS[step].q}</h3>
+                <h3 className="mt-2 font-display text-2xl font-black text-ink-deep md:text-3xl">
+                  {STEPS[step].q}
+                </h3>
                 <div className="mt-6 grid grid-cols-1 gap-3">
-                  {STEPS[step].options.map((opt) => (
+                  {STEPS[step].options.map((opt, i) => (
                     <Radio
                       key={opt}
                       label={opt}
                       checked={a[STEPS[step].key] === opt}
+                      delay={i * 0.05}
                       onSelect={() => next(opt)}
                     />
                   ))}
@@ -166,7 +141,7 @@ export function LeadForm() {
                 {step > 0 && (
                   <button
                     onClick={() => setStep((s) => Math.max(0, s - 1))}
-                    className="mt-6 text-sm text-ink/60 hover:text-ink"
+                    className="mt-6 text-sm font-medium text-muted transition-colors hover:text-ink"
                   >
                     ← Balik
                   </button>
@@ -176,36 +151,47 @@ export function LeadForm() {
               <motion.form
                 key="contact"
                 onSubmit={onSubmit}
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{ duration: 0.35 }}
+                className="mt-8"
               >
-                <div className="text-xs font-bold uppercase tracking-widest text-sage">
-                  Pertanyaan {STEPS.length + 1} / {STEPS.length + 1}
+                <div className="text-xs font-semibold uppercase tracking-[0.25em] text-sage">
+                  Pertanyaan {total} / {total}
                 </div>
-                <h3 className="mt-2 font-display text-2xl font-bold text-ink md:text-3xl">Kontak kamu</h3>
-                <div className="mt-6 space-y-4">
-                  <Input placeholder="Nama lengkap" value={name} onChange={(e) => setName(e.target.value)} />
-                  <Input
-                    placeholder="WhatsApp (08… / +62… / 62…)"
-                    value={wa}
-                    onChange={(e) => setWa(e.target.value)}
-                  />
-                  <Textarea
-                    placeholder="Ada hal spesifik yang mau disampaikan ke Laoshi? (opsional)"
+                <h3 className="mt-2 font-display text-2xl font-black text-ink-deep md:text-3xl">Kontak kamu</h3>
+                <div className="mt-6 space-y-5">
+                  <FloatingInput label="Nama lengkap" value={name} onChange={(v) => setName(v)} />
+                  <FloatingInput label="WhatsApp (08… / +62… / 62…)" value={wa} onChange={(v) => setWa(v)} />
+                  <FloatingTextarea
+                    label="Ada hal spesifik buat Laoshi? (opsional)"
                     value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
+                    onChange={(v) => setNotes(v)}
                   />
-                  {err && <div className="text-sm text-red-600">{err}</div>}
-                  <ShimmerSubmit disabled={submitting}>
-                    {submitting ? "Mengirim…" : "Submit & tunggu chat WA →"}
-                  </ShimmerSubmit>
+                  {err && <div className="text-sm font-medium text-red-600">{err}</div>}
+                  <ShimmerButton
+                    type="submit"
+                    disabled={submitting}
+                    background="linear-gradient(120deg,#FFD700,#F6E3A1)"
+                    shimmerColor="#FFFFFF"
+                    shimmerDuration="2.4s"
+                    className="h-16 w-full text-base font-black tracking-wide"
+                    style={{ color: "#2C2A26" }}
+                  >
+                    {submitting ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" /> Mengirim…
+                      </>
+                    ) : (
+                      "Submit & tunggu chat WA →"
+                    )}
+                  </ShimmerButton>
                 </div>
                 <button
                   type="button"
                   onClick={() => setStep((s) => s - 1)}
-                  className="mt-4 text-sm text-ink/60 hover:text-ink"
+                  className="mt-4 text-sm font-medium text-muted transition-colors hover:text-ink"
                 >
                   ← Balik
                 </button>
@@ -218,18 +204,86 @@ export function LeadForm() {
   );
 }
 
-function ShimmerSubmit({ children, disabled }: { children: React.ReactNode; disabled?: boolean }) {
+function DotProgress({ current, total }: { current: number; total: number }) {
   return (
-    <button
-      type="submit"
-      disabled={disabled}
-      className="relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-sage to-sage-dark px-8 font-medium text-cream shadow-lg shadow-sage/30 transition disabled:opacity-50"
-    >
-      <span
-        aria-hidden
-        className="absolute inset-0 -z-0 animate-shimmer bg-[linear-gradient(110deg,transparent,45%,rgba(255,255,255,0.4),55%,transparent)] [background-size:200%_100%]"
-      />
-      <span className="relative z-10">{children}</span>
-    </button>
+    <div className="flex items-center justify-center gap-3">
+      {Array.from({ length: total }).map((_, i) => (
+        <div key={i} className="flex items-center gap-3">
+          <span
+            className={
+              "relative grid place-items-center rounded-full transition-all duration-300 " +
+              (i < current
+                ? "h-2.5 w-2.5 bg-sage"
+                : i === current
+                  ? "h-3.5 w-3.5 bg-sage ring-4 ring-sage/20"
+                  : "h-2.5 w-2.5 bg-ink/15")
+            }
+          >
+            {i < current && <Check className="h-2 w-2 text-white" strokeWidth={3} />}
+          </span>
+          {i < total - 1 && (
+            <span className={"h-px w-6 " + (i < current ? "bg-sage" : "bg-ink/15")} />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SuccessScreen() {
+  useEffect(() => {
+    const t = setTimeout(() => {
+      confetti({
+        particleCount: 80,
+        spread: 100,
+        startVelocity: 30,
+        origin: { y: 0.6 },
+        colors: ["#8FAE6D", "#FFD700", "#F6E3A1"]
+      });
+    }, 600);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <section id="cta" className="relative bg-sage/10 py-32">
+      <div className="container mx-auto max-w-xl px-4 text-center">
+        <motion.div
+          initial={{ scale: 0, rotate: -40 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 240, damping: 14 }}
+          className="relative mx-auto grid h-24 w-24 place-items-center rounded-full bg-gradient-to-br from-sage to-forest text-white shadow-soft-lg"
+        >
+          <span className="absolute inset-0 animate-ping rounded-full bg-sage/40" />
+          <Check className="relative h-12 w-12" strokeWidth={3} />
+        </motion.div>
+        <motion.h2
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 font-display text-3xl font-black text-ink-deep md:text-4xl"
+        >
+          Terkirim! 🐼
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-3 text-lg text-ink/70"
+        >
+          Tim Huahua bakal WA kamu max 30 menit ya.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8"
+        >
+          <a href="https://wa.me/6281939304002" target="_blank" rel="noreferrer">
+            <ShimmerButton background="#8FAE6D" shimmerColor="#F6E3A1" className="h-14 px-8 text-base">
+              Atau chat langsung di WA →
+            </ShimmerButton>
+          </a>
+        </motion.div>
+      </div>
+    </section>
   );
 }
