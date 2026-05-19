@@ -24,20 +24,37 @@ const TONE_SCRIPT: ScriptStep[] = [
   { wait: 900, typing: 700, b: { id: "6", side: "in", type: "text", text: "Tone 3 di 好 keinggian — coba turunin di tengah." } }
 ];
 
+// Daily Conversation: each Laoshi reply = double bubble (VN + translation text).
+// Translation text bubble shows hanzi / (pinyin) / Indo all in one bubble.
+
 const CHAT_NORMAL: ScriptStep[] = [
+  // User asks
   { wait: 200, b: { id: "n1", side: "out", type: "voice", secs: 2, transcript: "Jīntiān tiānqì zěnme yàng?" } },
-  { wait: 600, typing: 1100, b: { id: "n2", side: "in", type: "text", text: "Cerah banget di Jakarta hari ini ☀️ Mau jalan-jalan?" } },
-  { wait: 700, typing: 900, b: { id: "n3", side: "in", type: "text", text: "Coba balas: 我想出去走走 (wǒ xiǎng chūqù zǒu zou) — saya mau jalan-jalan." } },
+  // Laoshi VN reply
+  { wait: 700, typing: 800, b: { id: "n2", side: "in", type: "voice", secs: 3, transcript: "Jīntiān Yǎjiādá tiānqì hěn hǎo!" } },
+  // Laoshi translation bubble
+  { wait: 500, b: { id: "n3", side: "in", type: "text", text: "今天雅加达天气很好!\n(Jīntiān Yǎjiādá tiānqì hěn hǎo)\nHari ini cuaca Jakarta bagus banget! Mau jalan-jalan?" } },
+  // User second voice
   { wait: 1000, b: { id: "n4", side: "out", type: "voice", secs: 3, transcript: "Wǒ xiǎng chī Zhōngguó cài" } },
-  { wait: 600, typing: 1000, b: { id: "n5", side: "in", type: "text", text: "Mantap! 火锅 (huǒguō) wajib coba — hot pot Mandarin. Mau saran tempat?" } }
+  // Laoshi VN reply
+  { wait: 700, typing: 800, b: { id: "n5", side: "in", type: "voice", secs: 4, transcript: "Nà nǐ yīdìng yào shì shì huǒguō!" } },
+  // Laoshi translation bubble
+  { wait: 500, b: { id: "n6", side: "in", type: "text", text: "那你一定要试试火锅!\n(Nà nǐ yīdìng yào shì shì huǒguō)\nKalau gitu kamu wajib coba hot pot! 🍲" } }
 ];
 
 const CHAT_GALAK: ScriptStep[] = [
+  // User asks
   { wait: 200, b: { id: "g1", side: "out", type: "voice", secs: 2, transcript: "Jīntiān tiānqì zěnme yàng?" } },
-  { wait: 600, typing: 900, b: { id: "g2", side: "in", type: "text", text: "Lah, masih tanya cuaca? Buka jendela 😏" } },
-  { wait: 700, typing: 1100, b: { id: "g3", side: "in", type: "text", text: "Yaudah, cerah. Puas? Coba balas pake hanzi: 我要出门 (wǒ yào chūmén). Jangan males." } },
+  // Laoshi galak VN
+  { wait: 700, typing: 800, b: { id: "g2", side: "in", type: "voice", secs: 3, transcript: "Nǐ bù huì zìjǐ kàn ma?" } },
+  // Galak translation bubble
+  { wait: 500, b: { id: "g3", side: "in", type: "text", text: "你不会自己看吗?\n(Nǐ bù huì zìjǐ kàn ma)\nBuka jendela kek, gak bisa liat sendiri? 😏" } },
+  // User second voice
   { wait: 1000, b: { id: "g4", side: "out", type: "voice", secs: 3, transcript: "Wǒ xiǎng chī Zhōngguó cài" } },
-  { wait: 600, typing: 1000, b: { id: "g5", side: "in", type: "text", text: "Akhirnya ada selera. 火锅 (huǒguō) wajib. Jangan minder kalo gak kuat pedes ya 🌶️" } }
+  // Laoshi galak VN
+  { wait: 700, typing: 800, b: { id: "g5", side: "in", type: "voice", secs: 4, transcript: "Zhōngyú yǒu diǎn pǐn wèi le!" } },
+  // Galak translation bubble
+  { wait: 500, b: { id: "g6", side: "in", type: "text", text: "终于有点品味了!\n(Zhōngyú yǒu diǎn pǐn wèi le)\nAkhirnya ada selera juga. Coba 火锅, jangan minder kalo kepedesan ya 🌶️" } }
 ];
 
 export const SCRIPTS = {
