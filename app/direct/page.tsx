@@ -8,13 +8,11 @@ import { Bonus } from "@/components/bonus/Bonus";
 import { Laoshi } from "@/components/laoshi/Laoshi";
 import { FAQ } from "@/components/faq/FAQ";
 import { FinalCTA } from "@/components/final-cta/FinalCTA";
-import { Checkout } from "@/components/checkout/Checkout";
-import { VariantInit } from "@/components/VariantInit";
+import { LeadForm } from "@/components/form/Form";
 
 export default function Direct() {
   return (
-    <main className="relative overflow-x-clip pb-16">
-      <VariantInit force="B" />
+    <main className="relative overflow-x-clip">
       <Hero variant="B" />
       <WhyPrivate />
       <CaraKerja />
@@ -25,7 +23,12 @@ export default function Direct() {
       <Testimonial />
       <FAQ />
       <FinalCTA />
-      <Checkout />
+      <LeadForm
+        variant="B"
+        eyebrow="📝 DAFTAR"
+        heading="Daftar Sekarang & Lanjut ke Pembayaran"
+        subheading="Isi form 30 detik, langsung lanjut ke checkout."
+      />
     </main>
   );
 }

@@ -9,12 +9,10 @@ import { Laoshi } from "@/components/laoshi/Laoshi";
 import { FAQ } from "@/components/faq/FAQ";
 import { FinalCTA } from "@/components/final-cta/FinalCTA";
 import { LeadForm } from "@/components/form/Form";
-import { VariantInit } from "@/components/VariantInit";
 
 export default function Page() {
   return (
     <main className="relative overflow-x-clip">
-      <VariantInit redirectIfB />
       <Hero variant="A" />
       <WhyPrivate />
       <CaraKerja />
@@ -25,7 +23,7 @@ export default function Page() {
       <Testimonial />
       <FAQ />
       <FinalCTA />
-      <LeadForm />
+      <LeadForm variant="A" />
     </main>
   );
 }

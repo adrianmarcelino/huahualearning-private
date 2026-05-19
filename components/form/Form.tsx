@@ -3,13 +3,14 @@
 // Lead form — Multi Step Loader on submit.
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { MultiStepLoader } from "@/components/ui/multi-step-loader";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { submitLead, genLeadId, isValidIndoPhone } from "@/lib/apps-script";
-import { readStored } from "@/lib/variant";
 import { cn } from "@/lib/utils";
+
+const PAY_REDIRECT = "https://www.huahualearning.com/pay-private";
 
 const STEPS = [
   {
@@ -63,7 +64,17 @@ const LOAD_STEPS = [
 
 type Answers = Record<string, string>;
 
-export function LeadForm() {
+export function LeadForm({
+  variant = "A",
+  heading,
+  subheading,
+  eyebrow
+}: {
+  variant?: "A" | "B";
+  heading?: string;
+  subheading?: string;
+  eyebrow?: string;
+}) {
   const [step, setStep] = useState(0);
   const [a, setA] = useState<Answers>({});
   const [name, setName] = useState("");
@@ -72,6 +83,7 @@ export function LeadForm() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [err, setErr] = useState("");
+  const leadIdRef = useRef<string>("");
 
   const total = STEPS.length + 1;
 
@@ -87,11 +99,15 @@ export function LeadForm() {
     if (!isValidIndoPhone(wa)) return setErr("Nomor WA harus mulai 08, +62, atau 62.");
 
     setLoading(true);
-    const variant = readStored() ?? "A";
-    const params = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
+    const leadId = genLeadId();
+    leadIdRef.current = leadId;
+    const adId =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("ad_id") ?? undefined
+        : undefined;
     try {
       await submitLead({
-        lead_id: genLeadId(),
+        lead_id: leadId,
         name,
         whatsapp: wa,
         goal: a.goal ?? "",
@@ -101,32 +117,46 @@ export function LeadForm() {
         timing: a.timing ?? "",
         notes,
         variant,
-        ad_id: params.get("ad_id") ?? undefined
+        ad_id: adId
       } as any);
     } catch {}
+  };
+
+  const onLoaderDone = () => {
+    setLoading(false);
+    if (variant === "B") {
+      const params = new URLSearchParams({
+        lead_id: leadIdRef.current,
+        name,
+        whatsapp: wa,
+        goal: a.goal ?? "",
+        level: a.level ?? "",
+        group_size: a.group_size ?? "",
+        material_choice: a.material_choice ?? "",
+        timing: a.timing ?? "",
+        notes
+      });
+      window.location.href = `${PAY_REDIRECT}?${params.toString()}`;
+      return;
+    }
+    setDone(true);
   };
 
   if (done) return <Success />;
 
   return (
     <section id="cta" className="relative bg-cream py-20 md:py-28">
-      <MultiStepLoader
-        loading={loading}
-        steps={LOAD_STEPS}
-        duration={900}
-        onDone={() => {
-          setLoading(false);
-          setDone(true);
-        }}
-      />
+      <MultiStepLoader loading={loading} steps={LOAD_STEPS} duration={900} onDone={onLoaderDone} />
 
       <div className="container mx-auto max-w-2xl px-4">
         <div className="text-center">
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">📝 DAFTAR</div>
+          <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">{eyebrow ?? "📝 DAFTAR"}</div>
           <h2 className="mt-3 font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
-            Daftar dalam 30 detik
+            {heading ?? "Daftar dalam 30 detik"}
           </h2>
-          <p className="mt-3 text-base text-muted">Tim Huahua bakal WA kamu max 30 menit setelah submit.</p>
+          <p className="mt-3 text-base text-muted">
+            {subheading ?? "Tim Huahua bakal WA kamu max 30 menit setelah submit."}
+          </p>
         </div>
 
         <div className="mt-10 rounded-2xl border border-sage/15 bg-white p-6 md:p-8">
