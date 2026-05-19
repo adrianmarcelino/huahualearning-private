@@ -56,10 +56,16 @@ const STEPS = [
   }
 ] as const;
 
-const LOAD_STEPS = [
+const LOAD_STEPS_A = [
   { text: "Menyimpan datamu…" },
   { text: "Notif ke Laoshi Adrian…" },
   { text: "Selesai! Cek WA kamu 🐼" }
+];
+
+const LOAD_STEPS_B = [
+  { text: "Menyimpan datamu…" },
+  { text: "Notif ke Laoshi Adrian…" },
+  { text: "Lanjut ke halaman pembayaran 💳" }
 ];
 
 type Answers = Record<string, string>;
@@ -146,7 +152,12 @@ export function LeadForm({
 
   return (
     <section id="cta" className="relative bg-cream py-20 md:py-28">
-      <MultiStepLoader loading={loading} steps={LOAD_STEPS} duration={900} onDone={onLoaderDone} />
+      <MultiStepLoader
+        loading={loading}
+        steps={variant === "B" ? LOAD_STEPS_B : LOAD_STEPS_A}
+        duration={900}
+        onDone={onLoaderDone}
+      />
 
       <div className="container mx-auto max-w-2xl px-4">
         <div className="text-center">
@@ -213,7 +224,13 @@ export function LeadForm({
                     disabled={loading}
                     className="inline-flex h-14 min-h-[48px] w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-gold to-gold-bright text-base font-black text-ink-deep shadow-soft-lg disabled:opacity-50"
                   >
-                    {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Submit & tunggu chat WA →"}
+                    {loading ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : variant === "B" ? (
+                      "Submit & lanjut ke pembayaran →"
+                    ) : (
+                      "Submit & tunggu chat WA →"
+                    )}
                   </button>
                 </div>
               </motion.form>
