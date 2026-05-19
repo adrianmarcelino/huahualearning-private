@@ -6,6 +6,9 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { AuroraBlob } from "./aurora-blob";
 import { Watermark } from "./watermark";
 import { OrbitField } from "./orbit-field";
+import { HeroMascot } from "./HeroMascot";
+import { useAppState } from "@/lib/state-context";
+import { useEffect } from "react";
 import { FlickeringGrid } from "@/components/ui/flickering-grid";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { AuroraText } from "@/components/ui/aurora-text";
@@ -17,6 +20,12 @@ export function Hero({ variant }: { variant: "A" | "B" }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const { setMascotPose, scrollProgress } = useAppState();
+
+  // STATE 1 — keep mascot in idle pose while user is in hero
+  useEffect(() => {
+    if (scrollProgress < 0.05) setMascotPose("idle");
+  }, [scrollProgress, setMascotPose]);
 
   const words1 = ["Belajar", "Mandarin", "privat"];
   const words2 = ["Laoshi", "profesional"];
@@ -43,6 +52,8 @@ export function Hero({ variant }: { variant: "A" | "B" }) {
       <Watermark />
       {/* layer 5 — orbiting circles top right */}
       <OrbitField />
+      {/* layer 6 — 3D mascot (hero size, fades on scroll past) */}
+      <HeroMascot />
 
       <div className="container relative z-10 mx-auto max-w-5xl text-center">
         <BlurFade delay={0.1} direction="down">
