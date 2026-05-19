@@ -26,7 +26,7 @@ export function AuroraBackground({
             "[background-size:300%_200%]",
             "[background-position:50%_50%]",
             "filter blur-[8px] invert-0",
-            "after:absolute after:inset-0 after:[background-image:inherit] after:[background-size:200%_100%] after:animate-aurora after:[background-attachment:fixed] after:mix-blend-difference",
+            "after:absolute after:inset-0 after:[background-image:inherit] after:[background-size:200%_100%] after:animate-aurora-bg after:mix-blend-soft-light",
             showRadialGradient && "[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]"
           )}
         />
