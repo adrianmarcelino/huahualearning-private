@@ -3,10 +3,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+// 华 character drawn via SVG stroke animation, 1.2s max, then fade out.
 export function LoadingScreen() {
   const [show, setShow] = useState(true);
   useEffect(() => {
-    const t = setTimeout(() => setShow(false), 1100);
+    const t = setTimeout(() => setShow(false), 1200);
     return () => clearTimeout(t);
   }, []);
   return (
@@ -18,15 +19,38 @@ export function LoadingScreen() {
           className="fixed inset-0 z-[100] grid place-items-center bg-cream"
         >
           <motion.div
-            initial={{ scale: 0.6, rotate: -10, opacity: 0 }}
-            animate={{ scale: 1, rotate: [0, -6, 6, 0], opacity: 1 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col items-center gap-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col items-center gap-5"
           >
-            <div className="grid h-20 w-20 place-items-center rounded-full bg-sage text-3xl text-cream shadow-lg shadow-sage/30">
-              华
-            </div>
-            <div className="text-sm font-medium tracking-widest text-ink/60">HUAHUA</div>
+            <svg viewBox="0 0 100 100" className="h-24 w-24">
+              <motion.text
+                x="50"
+                y="74"
+                textAnchor="middle"
+                fontSize="78"
+                fontWeight="900"
+                fontFamily="ui-sans-serif, system-ui"
+                fill="none"
+                stroke="#4A6B3A"
+                strokeWidth="2"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+                style={{ pathLength: 0 } as any}
+              >
+                华
+              </motion.text>
+            </svg>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-xs font-bold uppercase tracking-[0.5em] text-muted"
+            >
+              Huahua Private
+            </motion.div>
           </motion.div>
         </motion.div>
       )}
