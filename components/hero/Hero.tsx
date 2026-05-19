@@ -5,16 +5,25 @@
 // Fraunces italic on "Dalam hitungan bulan." line only.
 
 import { Boxes } from "@/components/ui/background-boxes";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 import { SpotlightNew } from "@/components/ui/spotlight-new";
+import { DottedGrid } from "@/components/ambient/DottedGrid";
+import { AuroraSubtle } from "@/components/ambient/AuroraSubtle";
 import { ArrowRight, Check } from "lucide-react";
 
 export function Hero({ variant }: { variant: "A" | "B" }) {
   const ctaLabel = variant === "B" ? "Reveal Harga" : "Daftar Sekarang";
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-cream px-4 pt-28">
-      <AuroraBackground className="absolute inset-0 -z-10 opacity-50" />
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-20 [mask-image:linear-gradient(to_bottom,transparent,white_15%,white_85%,transparent)]">
+      {/* layer 1: cream base (bg-cream above)
+          layer 2: dotted-grid texture
+          layer 3: slow sage haze (no iridescence)
+          layer 4: subtle box grid
+          layer 5: spotlight glow */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <DottedGrid />
+      </div>
+      <AuroraSubtle className="-z-10" />
+      <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.15] [mask-image:linear-gradient(to_bottom,transparent,white_15%,white_85%,transparent)]">
         <Boxes />
       </div>
       <SpotlightNew />
