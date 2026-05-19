@@ -1,27 +1,15 @@
 "use client";
 
-// Inspired by Aceternity 3D Card Effect
-// https://ui.aceternity.com/components/3d-card-effect
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
-import { cn } from "@/lib/utils";
+import { BorderBeam } from "@/components/ui/border-beam";
 
-export function Card3D({
-  children,
-  featured = false,
-  index = 0
-}: {
-  children: React.ReactNode;
-  featured?: boolean;
-  index?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
+function useTilt() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rx = useSpring(useTransform(y, [-0.5, 0.5], [10, -10]), { stiffness: 220, damping: 16 });
-  const ry = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), { stiffness: 220, damping: 16 });
-
+  const rx = useSpring(useTransform(y, [-0.5, 0.5], [6, -6]), { stiffness: 220, damping: 18 });
+  const ry = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { stiffness: 220, damping: 18 });
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     x.set((e.clientX - r.left) / r.width - 0.5);
@@ -31,20 +19,57 @@ export function Card3D({
     x.set(0);
     y.set(0);
   };
+  return { rx, ry, onMove, onLeave };
+}
+
+export function ProviderCard({
+  name,
+  dot,
+  children
+}: {
+  name: string;
+  dot: string;
+  children: React.ReactNode;
+}) {
+  const t = useTilt();
+  return (
+    <motion.div
+      onMouseMove={t.onMove}
+      onMouseLeave={t.onLeave}
+      style={{ rotateX: t.rx, rotateY: t.ry, transformPerspective: 1200 }}
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 220, damping: 22 }}
+      className="relative h-full rounded-3xl border border-sage/15 bg-white p-8 shadow-soft"
+    >
+      <div className="mb-6 flex items-center gap-2">
+        <span className="h-4 w-4 rounded-full" style={{ background: dot }} />
+        <div className="font-display text-lg font-bold text-ink-deep">{name}</div>
+      </div>
+      {children}
+    </motion.div>
+  );
+}
+
+export function HuahuaCard({ children }: { children: React.ReactNode }) {
+  const t = useTilt();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!featured || !ref.current) return;
+    if (!ref.current) return;
     const obs = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
             const r = (e.target as HTMLElement).getBoundingClientRect();
             confetti({
-              particleCount: 40,
-              spread: 60,
+              particleCount: 60,
+              spread: 70,
               startVelocity: 28,
-              origin: { x: (r.left + r.width / 2) / window.innerWidth, y: (r.top + r.height / 2) / window.innerHeight },
-              colors: ["#8FAE6D", "#F6E3A1", "#FBF4EA"]
+              origin: {
+                x: (r.left + r.width / 2) / window.innerWidth,
+                y: (r.top + r.height / 2) / window.innerHeight
+              },
+              colors: ["#8FAE6D", "#F6E3A1", "#FFD700", "#FBF4EA"]
             });
             obs.disconnect();
           }
@@ -54,31 +79,63 @@ export function Card3D({
     );
     obs.observe(ref.current);
     return () => obs.disconnect();
-  }, [featured]);
+  }, []);
 
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000 }}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, delay: index * 0.08 }}
-      className={cn(
-        "relative rounded-3xl p-6 transition-shadow",
-        featured
-          ? "bg-gradient-to-br from-sage to-sage-dark text-cream shadow-2xl shadow-sage/30 ring-1 ring-sage/50"
-          : "bg-cream/80 ring-1 ring-ink/10 shadow-md"
-      )}
-    >
-      {featured && (
-        <span className="absolute -top-3 right-4 rounded-full bg-gold px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink">
-          Huahua
-        </span>
-      )}
-      <div style={{ transform: "translateZ(40px)" }}>{children}</div>
-    </motion.div>
+    <div ref={ref} className="relative h-full pt-4">
+      {/* badge sits ABOVE card, never clipping */}
+      <span
+        className="absolute -top-1 right-6 z-20 rounded-full bg-gold-bright px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-ink-deep shadow-md"
+        style={{ boxShadow: "0 8px 24px rgba(255,215,0,0.4)" }}
+      >
+        Huahua
+      </span>
+
+      <motion.div
+        onMouseMove={t.onMove}
+        onMouseLeave={t.onLeave}
+        style={{
+          rotateX: t.rx,
+          rotateY: t.ry,
+          transformPerspective: 1200,
+          background: "linear-gradient(135deg, #8FAE6D 0%, #4A6B3A 100%)"
+        }}
+        whileHover={{ y: -10 }}
+        transition={{ type: "spring", stiffness: 220, damping: 22 }}
+        className="relative h-full overflow-hidden rounded-3xl p-8 text-white shadow-soft-lg"
+      >
+        <BorderBeam size={140} duration={8} colorFrom="#FFD700" colorTo="#F6E3A1" />
+
+        {/* drifting gold particles */}
+        <FloatingParticles />
+
+        <div className="relative">
+          <div className="mb-6 flex items-center gap-2">
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-white/15 backdrop-blur text-sm font-bold">
+              华
+            </span>
+            <div className="font-display text-lg font-black">Huahua AI Laoshi</div>
+          </div>
+          {children}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+function FloatingParticles() {
+  const dots = Array.from({ length: 10 });
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {dots.map((_, i) => (
+        <motion.span
+          key={i}
+          className="absolute h-1 w-1 rounded-full bg-gold/80 shadow-[0_0_6px_rgba(255,215,0,0.7)]"
+          initial={{ x: Math.random() * 280, y: 300, opacity: 0 }}
+          animate={{ y: -40, opacity: [0, 1, 0] }}
+          transition={{ duration: 4 + Math.random() * 3, delay: i * 0.4, repeat: Infinity, ease: "easeOut" }}
+        />
+      ))}
+    </div>
   );
 }
