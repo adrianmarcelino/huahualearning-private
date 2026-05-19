@@ -24,7 +24,12 @@ export function FloatingInput({
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="peer h-14 w-full rounded-2xl border-[1.5px] border-sage/30 bg-white px-4 pt-4 text-base text-ink-deep transition-colors focus:border-sage focus:outline-none focus:ring-4 focus:ring-sage/15"
+        className="peer h-14 w-full rounded-2xl border-[1.5px] border-sage/30 bg-white px-4 pt-4 text-base text-ink-deep transition-colors focus:outline-none focus:ring-4 focus:ring-sage/15"
+        style={{
+          borderImageSource: focused ? "linear-gradient(90deg,#8FAE6D,#FFD700)" : undefined,
+          borderImageSlice: focused ? 1 : undefined,
+          borderColor: focused ? "transparent" : undefined
+        }}
       />
       <span
         className={cn(
