@@ -1,18 +1,16 @@
 "use client";
 
-// Hero section — combines:
-//   - Background Boxes (component 1)
-//   - Aurora Background (component 2)
-//   - Spotlight (component 15)
-//   - Text Generate Effect (component 3)
-//   - Lottie Panda (component 16)
+// Hero v5 — copy update only. Same Aceternity infrastructure:
+//   1. Background Boxes
+//   2. Aurora Background
+//   3. Text Generate Effect
+//   15. Spotlight
 
 import { Boxes } from "@/components/ui/background-boxes";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { SpotlightNew } from "@/components/ui/spotlight-new";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { LottiePanda } from "@/components/ui/lottie-panda";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 export function Hero({ variant }: { variant: "A" | "B" }) {
   return (
@@ -33,49 +31,44 @@ export function Hero({ variant }: { variant: "A" | "B" }) {
         </div>
 
         <h1 className="font-display font-black leading-[1.05] tracking-tight text-ink-deep" style={{ fontSize: "clamp(32px, 8vw, 64px)" }}>
-          <TextGenerateEffect words="Belajar Mandarin privat bareng **Laoshi** profesional" />
+          <TextGenerateEffect words={`Dari Cuman Bisa "你好" Sampai Lancar Conversation.`} />
         </h1>
 
-        <p className="mt-5 mx-auto max-w-xl text-ink/70" style={{ fontSize: "clamp(15px, 4vw, 18px)" }}>
-          Kurikulum disesuaikan tujuanmu. Bonus stack senilai{" "}
-          <span className="font-semibold text-forest">Rp 868.000+</span> termasuk gratis.
+        <p className="mt-4 font-serif italic font-light text-forest" style={{ fontSize: "clamp(18px, 4.8vw, 26px)" }}>
+          Dalam hitungan bulan.
         </p>
 
-        {/* Lottie panda — top-right of headline on desktop, centered above CTAs on mobile */}
-        <div className="mx-auto mt-6 h-32 w-32 md:absolute md:right-2 md:top-24 md:h-40 md:w-40">
-          <LottiePanda />
-        </div>
+        <p className="mt-5 mx-auto max-w-xl text-ink/70" style={{ fontSize: "clamp(15px, 4vw, 18px)" }}>
+          Private class bareng laoshi, jadwal kamu yang atur
+        </p>
 
-        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <ul className="mx-auto mt-6 max-w-md space-y-2.5 text-left">
+          {[
+            "Bebas request materi — HSK, bisnis, traveling, conversation",
+            "Laoshi bersertifikat & berpengalaman",
+            "Bonus modul & AI Laoshi GRATIS"
+          ].map((item) => (
+            <li key={item} className="flex items-start gap-2.5">
+              <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-sage text-white">
+                <Check className="h-3 w-3" strokeWidth={3} />
+              </span>
+              <span className="text-[15px] font-medium text-ink-deep">{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-8 flex flex-col items-center gap-3">
           <a
             href="#cta"
-            className="inline-flex h-12 min-h-[48px] items-center justify-center gap-2 rounded-full bg-sage px-7 text-base font-semibold text-cream shadow-soft hover:bg-sage-dark"
+            className="inline-flex h-14 min-h-[48px] items-center justify-center gap-2 rounded-full bg-sage px-8 text-base font-semibold text-cream shadow-soft-lg hover:bg-sage-dark"
           >
-            {variant === "B" ? "Reveal harga" : "Isi form 30 detik"}
+            {variant === "B" ? "Reveal Harga" : "Daftar Sekarang"}
             <ArrowRight className="h-4 w-4" />
           </a>
-          <a
-            href="#cara-kerja"
-            className="inline-flex h-12 min-h-[48px] items-center justify-center gap-2 rounded-full border border-sage/40 bg-white px-7 text-base font-medium text-ink-deep shadow-soft hover:shadow-soft-lg"
-          >
-            Lihat cara kerja
-            <ChevronDown className="h-4 w-4" />
-          </a>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted">
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-sage" />
-            500+ siswa aktif
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-sage" />
-            Native Laoshi
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-sage" />
-            Garansi 7 hari
-          </span>
+          <div className="flex items-center gap-2 text-xs text-muted">
+            <span className="text-gold-bright text-base">★★★★★</span>
+            <span>500+ murid · Level 0 sampai HSK 5</span>
+          </div>
         </div>
       </div>
     </section>

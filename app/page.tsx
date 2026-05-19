@@ -1,10 +1,13 @@
 import { Hero } from "@/components/hero/Hero";
+import { WhyPrivate } from "@/components/why-private/WhyPrivate";
 import { CaraKerja } from "@/components/cara-kerja/CaraKerja";
-import { Differentiator } from "@/components/differentiator/Diff";
+import { Comparison } from "@/components/comparison/Comparison";
+import { Testimonial } from "@/components/testimonial/Testimonial";
+import { Pricing } from "@/components/pricing/Pricing";
 import { Bonus } from "@/components/bonus/Bonus";
-import { Video } from "@/components/video/Video";
-import { Bento } from "@/components/bento/Bento";
 import { Laoshi } from "@/components/laoshi/Laoshi";
+import { FAQ } from "@/components/faq/FAQ";
+import { FinalCTA } from "@/components/final-cta/FinalCTA";
 import { LeadForm } from "@/components/form/Form";
 import { VariantInit } from "@/components/VariantInit";
 
@@ -13,12 +16,15 @@ export default function Page() {
     <main className="relative overflow-x-clip">
       <VariantInit redirectIfB />
       <Hero variant="A" />
+      <WhyPrivate />
       <CaraKerja />
-      <Differentiator />
+      <Comparison />
+      <Pricing />
       <Bonus />
-      <Video />
-      <Bento />
       <Laoshi />
+      <Testimonial />
+      <FAQ />
+      <FinalCTA />
       <LeadForm />
     </main>
   );

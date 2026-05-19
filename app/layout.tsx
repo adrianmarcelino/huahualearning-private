@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/shared/Navbar";
-import { StickyPanda } from "@/components/shared/StickyPanda";
 
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap", weight: ["300", "400", "500", "600", "700", "800", "900"] });
 const display = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-display", display: "swap", weight: ["400", "500", "600", "700", "800"] });
@@ -27,7 +26,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-cream text-ink font-sans antialiased">
         <Navbar />
         {children}
-        <StickyPanda />
       </body>
     </html>
   );

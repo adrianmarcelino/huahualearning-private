@@ -1,13 +1,12 @@
 "use client";
 
-// Lead form — Multi Step Loader (12) on submit, sticky Lottie panda watches from corner.
+// Lead form — Multi Step Loader on submit.
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { MultiStepLoader } from "@/components/ui/multi-step-loader";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { LottiePanda } from "@/components/ui/lottie-panda";
 import { submitLead, genLeadId, isValidIndoPhone } from "@/lib/apps-script";
 import { readStored } from "@/lib/variant";
 import { cn } from "@/lib/utils";
@@ -17,10 +16,10 @@ const STEPS = [
     key: "goal",
     q: "Tujuan utama belajar Mandarin?",
     options: [
-      "Persiapan kerja/karir di perusahaan China-related",
       "Persiapan ujian HSK",
-      "Persiapan kuliah/beasiswa di China/Taiwan",
-      "Bisnis pribadi/dagang dengan supplier China",
+      "Bisnis / kerja terkait China",
+      "Persiapan kuliah / beasiswa",
+      "Conversation sehari-hari",
       "Travel & hobi"
     ]
   },
@@ -38,7 +37,16 @@ const STEPS = [
   {
     key: "group_size",
     q: "Mau belajar sendiri atau bareng teman/keluarga?",
-    options: ["Sendiri (1-on-1)", "Berdua", "Bertiga", "Berempat", "Berlima"]
+    options: ["Sendiri (1-on-1)", "Berdua", "Bertiga atau lebih"]
+  },
+  {
+    key: "material_choice",
+    q: "Materi yang dipilih?",
+    options: [
+      "Materi Buku HSK",
+      "Materi Request (Bisnis/Traveling/Conversation)",
+      "Belum yakin — diskusi dulu"
+    ]
   },
   {
     key: "timing",
@@ -64,15 +72,12 @@ export function LeadForm() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [err, setErr] = useState("");
-  const [pandaPose, setPandaPose] = useState<"idle" | "happy">("idle");
 
   const total = STEPS.length + 1;
 
   const next = (val: string) => {
     setA((x) => ({ ...x, [STEPS[step].key]: val }));
-    setPandaPose("happy");
-    setTimeout(() => setPandaPose("idle"), 700);
-    setTimeout(() => setStep((s) => s + 1), 300);
+    setTimeout(() => setStep((s) => s + 1), 280);
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -92,11 +97,12 @@ export function LeadForm() {
         goal: a.goal ?? "",
         level: a.level ?? "",
         group_size: a.group_size ?? "",
+        material_choice: a.material_choice ?? "",
         timing: a.timing ?? "",
         notes,
         variant,
         ad_id: params.get("ad_id") ?? undefined
-      });
+      } as any);
     } catch {}
   };
 
@@ -104,13 +110,6 @@ export function LeadForm() {
 
   return (
     <section id="cta" className="relative bg-cream py-16 md:py-24 lg:py-32">
-      {/* sticky panda watches */}
-      <div className="pointer-events-none absolute right-4 top-10 h-20 w-20 md:h-28 md:w-28">
-        <div className="pointer-events-auto h-full w-full">
-          <LottiePanda pose={pandaPose} />
-        </div>
-      </div>
-
       <MultiStepLoader
         loading={loading}
         steps={LOAD_STEPS}
@@ -299,8 +298,8 @@ function Success() {
   return (
     <section id="cta" className="relative bg-sage/10 py-16 md:py-24">
       <div className="container mx-auto max-w-xl px-4 text-center">
-        <div className="mx-auto h-32 w-32">
-          <LottiePanda pose="happy" />
+        <div className="mx-auto grid h-24 w-24 place-items-center rounded-full bg-sage text-cream shadow-soft-lg">
+          <Check className="h-12 w-12" strokeWidth={3} />
         </div>
         <h2 className="mt-6 font-display text-3xl font-black text-ink-deep md:text-4xl">Terkirim! 🐼</h2>
         <p className="mt-3 text-base text-muted">Tim Huahua bakal WA kamu max 30 menit ya.</p>

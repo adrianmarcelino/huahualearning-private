@@ -1,54 +1,28 @@
 "use client";
 
-// Bonus stack — Tracing Beam (10) down the left, Aurora Background (2) behind, 3 bonus cards.
+// Bonus — Tracing Beam left rail + 3 bonus cards + total NumberTicker.
 
 import { TracingBeam } from "@/components/ui/tracing-beam";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Highlight } from "@/components/ui/hero-highlight";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { CheckCircle2 } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 
 const BONUSES = [
-  {
-    title: "All Levels Pass HSK 1-6",
-    body: "Materi self-study lengkap HSK 1 sampai HSK 6.",
-    normal: 369000
-  },
-  {
-    title: "3 bulan Huahua AI Laoshi Premium",
-    body:
-      "Satu-satunya AI Mandarin yang bisa nilai pengucapan kamu seperti Laoshi beneran, bukan cuma jawab teks seperti ChatGPT, DeepSeek, atau Claude.",
-    normal: 499000,
-    featured: true
-  },
-  {
-    title: "Akses 1000+ video vocab HSK 3.0",
-    body: "Tiap kata Mandarin dijelaskan dalam video singkat dengan contoh kalimat.",
-    normal: null,
-    badge: "1000+ video"
-  }
+  { emoji: "🎁", title: "Modul HSK 1–6", duration: "akses selamanya", normal: 369000 },
+  { emoji: "🎁", title: "AI Laoshi Basic", duration: "1 tahun", normal: 99000 },
+  { emoji: "🎁", title: "AI Laoshi Premium", duration: "1 bulan", normal: 199000 }
 ];
 
 export function Bonus() {
   return (
-    <section id="bonus" className="relative overflow-hidden bg-cream py-16 md:py-24 lg:py-32">
-      <AuroraBackground className="absolute inset-0 opacity-60 -z-10" />
+    <section id="bonus" className="relative overflow-hidden bg-cream-2 py-16 md:py-24 lg:py-32">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-block rotate-[-2deg] rounded-full bg-gold-bright/30 px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.25em] text-ink-deep shadow-soft">
-            Bonus stack · gratis
-          </div>
-          <h2 className="mt-4 font-display font-black text-ink-deep" style={{ fontSize: "clamp(28px, 7vw, 44px)" }}>
-            <TextGenerateEffect words="Total nilai bonus" />
+          <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-sage">Bonus stack</div>
+          <h2 className="mt-3 font-display font-black text-ink-deep" style={{ fontSize: "clamp(28px, 7vw, 44px)" }}>
+            <TextGenerateEffect words="Setiap Paket **Auto Dapet:**" />
           </h2>
-          <div className="mt-3 inline-block">
-            <Highlight className="font-display font-black text-ink-deep">
-              Rp <NumberTicker value={2868000} />
-            </Highlight>
-          </div>
-          <p className="mt-3 text-base text-muted md:text-lg">Termasuk gratis di semua paket privat.</p>
         </div>
 
         <TracingBeam className="mt-12">
@@ -56,35 +30,44 @@ export function Bonus() {
             {BONUSES.map((b, i) => (
               <div
                 key={i}
-                className={
-                  "relative rounded-3xl border bg-white p-6 shadow-soft transition-all " +
-                  (b.featured ? "border-2 border-gold-bright/70 lg:scale-[1.02]" : "border-sage/15")
-                }
+                className="relative rounded-3xl border border-sage/15 bg-white p-6 shadow-soft"
               >
-                {b.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold-bright px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-ink-deep shadow-md">
-                    ★ Hook
-                  </span>
-                )}
-                <div className="text-[10px] font-bold uppercase tracking-widest text-sage">
-                  Bonus {i + 1}
+                <div className="flex items-start gap-4">
+                  <span className="text-3xl">{b.emoji}</span>
+                  <div className="flex-1">
+                    <h3 className="font-display text-xl font-black text-ink-deep md:text-2xl">{b.title}</h3>
+                    <p className="mt-1 text-sm text-ink/70">{b.duration}</p>
+                  </div>
                 </div>
-                <h3 className="mt-1 font-display text-xl font-black text-ink-deep md:text-2xl">{b.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink/70">{b.body}</p>
                 <div className="mt-5 flex items-center justify-between">
-                  {b.normal !== null ? (
-                    <span className="text-xs text-muted line-through">Normal {formatRupiah(b.normal)}</span>
-                  ) : (
-                    <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-forest">{b.badge}</span>
-                  )}
-                  <span className="inline-flex items-center gap-1 rounded-full bg-sage px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-cream">
-                    <CheckCircle2 className="h-3 w-3" /> Gratis
+                  <span className="text-xs text-muted line-through">Normal {formatRupiah(b.normal)}</span>
+                  <span className="rounded-full bg-sage px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-cream">
+                    GRATIS
                   </span>
                 </div>
               </div>
             ))}
           </div>
         </TracingBeam>
+
+        <div className="mx-auto mt-12 max-w-2xl text-center">
+          <div className="font-display font-black text-ink-deep" style={{ fontSize: "clamp(28px, 7vw, 48px)" }}>
+            Total bonus:{" "}
+            <Highlight>
+              Rp <NumberTicker value={667000} duration={1.6} />
+            </Highlight>{" "}
+            — GRATIS
+          </div>
+          <p className="mt-4 text-sm text-ink/70 md:text-base">
+            ➕ Bonus tambahan: Materi ajar & rekaman kelas
+          </p>
+          <a
+            href="#cta"
+            className="mt-7 inline-flex h-14 min-h-[48px] items-center gap-2 rounded-full bg-sage px-8 text-base font-semibold text-cream shadow-soft hover:bg-sage-dark"
+          >
+            Daftar & Klaim Bonus →
+          </a>
+        </div>
       </div>
     </section>
   );

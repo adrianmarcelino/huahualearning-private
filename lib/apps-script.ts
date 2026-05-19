@@ -8,6 +8,7 @@ export type LeadPayload = {
   goal: string;
   level: string;
   group_size: string;
+  material_choice?: string;
   timing: string;
   notes: string;
   variant: "A" | "B";

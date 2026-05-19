@@ -1,58 +1,61 @@
 "use client";
 
-// Cara Kerja — uses Sticky Scroll Reveal (component 8) and Container Scroll Animation (component 4).
+// Cara Kerja — 3-step Sticky Scroll Reveal copy update.
 
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { PhoneChat } from "@/components/phone-mockup/PhoneChat";
+import { ClipboardList, CreditCard, MessageCircle } from "lucide-react";
 
 const STEPS = [
   {
-    title: "Kirim Suara",
-    description: "Ucapkan kata atau kalimat Mandarin di WhatsApp. Laoshi AI dengerin langsung — bukan baca teks."
+    title: "Isi form & pilih paket",
+    description: "Tentukan tujuan belajarmu, level sekarang, dan paket yang paling cocok. Form cuma 30 detik."
   },
   {
-    title: "Dinilai per Nada",
-    description: "Skor pelafalan tiap karakter dan tiap nada (Tone 1-4). Tahu persis nada mana yang masih meleset."
+    title: "Bayar",
+    description: "Transfer / Midtrans. Setelah masuk, langsung di-WA tim kami."
   },
   {
-    title: "Koreksi Spesifik",
-    description: "Feedback yang bisa langsung diulang. Plus contoh audio buat dibandingin. Tiap minggu Laoshi manusia recap progress kamu."
+    title: "Kita WA buat atur jadwal & laoshi",
+    description: "Sebut hari + jam yang cocok, kami matchin laoshi yang paling pas. Kelas pertama bisa minggu ini juga."
   }
 ];
+
+const ICONS = [ClipboardList, CreditCard, MessageCircle];
 
 export function CaraKerja() {
   return (
     <section id="cara-kerja" className="relative bg-cream py-16 md:py-24 lg:py-32">
       <div className="container mx-auto px-4 mb-10 text-center">
         <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-sage">Cara kerja</div>
-        <h2 className="mt-3 font-display font-black text-ink-deep" style={{ fontSize: "clamp(32px, 7vw, 52px)" }}>
-          <TextGenerateEffect words="Belajar di WhatsApp yang **sama** yang sudah kamu pakai" />
+        <h2 className="mt-3 font-display font-black text-ink-deep" style={{ fontSize: "clamp(28px, 7vw, 44px)" }}>
+          <TextGenerateEffect words="Cara Kerja" />
         </h2>
       </div>
 
-      {/* Container Scroll Animation centerpiece */}
-      <ContainerScroll
-        titleComponent={
-          <h2 className="font-display font-black text-ink-deep" style={{ fontSize: "clamp(20px, 5vw, 32px)" }}>
-            Scroll buat lihat <span className="text-forest">Laoshi AI</span> jawab pengucapanmu →
-          </h2>
-        }
-      >
-        <PhoneChat />
-      </ContainerScroll>
-
-      {/* Sticky scroll reveal — text on left, phone visual sticks on right (desktop only). Mobile gets sequential stack. */}
-      <div className="container mx-auto px-4 mt-8">
+      <div className="container mx-auto px-4">
         <StickyScroll
-          content={STEPS.map((s) => ({
-            title: s.title,
-            description: s.description,
-            content: <PhoneChat compact />
-          }))}
+          content={STEPS.map((s, i) => {
+            const Icon = ICONS[i];
+            return {
+              title: s.title,
+              description: s.description,
+              content: (
+                <div className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-sage to-forest text-white">
+                  <Icon className="h-24 w-24" strokeWidth={1.2} />
+                  <span className="absolute bottom-3 left-3 text-xs font-semibold tracking-widest opacity-80">
+                    STEP 0{i + 1}
+                  </span>
+                </div>
+              )
+            };
+          })}
         />
       </div>
+
+      <p className="mx-auto mt-6 max-w-xl text-center text-base font-semibold text-forest md:text-lg">
+        Kelas pertama bisa minggu ini juga.
+      </p>
     </section>
   );
 }
