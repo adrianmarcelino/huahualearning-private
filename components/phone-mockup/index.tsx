@@ -1,52 +1,127 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { PhoneFrame } from "./frame";
 import { Conversation } from "./conversation";
-import { stickyPanels } from "./sticky-panels";
+import { BlurFade } from "@/components/ui/blur-fade";
+
+const STEPS = [
+  {
+    tag: "01 — Kirim suara",
+    title: "Rekam pengucapanmu langsung di WhatsApp",
+    body: "Ucapkan kata atau kalimat Mandarin. Laoshi AI dengerin langsung — bukan baca teks. Tone 1-4 ditangkap per detik."
+  },
+  {
+    tag: "02 — Dinilai per nada",
+    title: "Skor pelafalan tiap karakter, tiap nada",
+    body: "Tone 1-4 dinilai per hanzi. Bukan cuma 'bagus' atau 'kurang'. Kamu tahu persis nada mana yang masih meleset."
+  },
+  {
+    tag: "03 — Koreksi spesifik",
+    title: "Feedback yang bisa langsung diulang",
+    body: "Initial salah? Final kurang panjang? Dibilangin tepat, plus contoh audio buat dibandingin. Tiap minggu, Laoshi manusia recap progress kamu."
+  }
+];
 
 export function PhoneMockupSection() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [-18, 0, 18]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [6, 0, -6]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1, 0.92]);
+
+  // phone tilt — diagonal coming in, straight at center, opposite out
+  const rotateY = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [-14, 0, 0, 14]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [8, 0, 0, -8]);
+  const scale = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0.92, 1, 1, 0.94]);
+
+  // step driver — based on which step panel is most in view
+  const [activeStep, setActiveStep] = useState(0);
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  useEffect(() => {
+    const observers = panelRefs.current.map((el, i) => {
+      if (!el) return null;
+      const o = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) setActiveStep(i);
+          }
+        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      );
+      o.observe(el);
+      return o;
+    });
+    return () => {
+      observers.forEach((o) => o?.disconnect());
+    };
+  }, []);
 
   return (
-    <section id="phone" ref={ref} className="relative py-32">
-      <div className="container mx-auto grid grid-cols-1 gap-10 px-4 lg:grid-cols-2">
-        {/* Sticky phone (effect 13) */}
-        <div className="relative">
-          <div className="sticky top-24">
-            <motion.div
-              style={{ rotateY, rotateX, scale, transformPerspective: 1000 }}
-              className="mx-auto w-full max-w-[320px]"
-            >
-              <PhoneFrame>
-                <Conversation />
-              </PhoneFrame>
-            </motion.div>
-          </div>
+    <section id="phone" ref={ref} className="relative bg-cream py-32">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto mb-20 max-w-2xl text-center">
+          <BlurFade>
+            <div className="text-xs font-semibold uppercase tracking-[0.3em] text-sage">Cara kerja</div>
+          </BlurFade>
+          <BlurFade delay={0.1}>
+            <h2 className="mt-3 font-display text-4xl font-black text-ink-deep md:text-5xl">
+              Belajar di WhatsApp yang sama yang sudah kamu pakai
+            </h2>
+          </BlurFade>
         </div>
 
-        {/* Scrolling panels next to phone */}
-        <div className="space-y-32 pt-12">
-          {stickyPanels.map((p, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="text-xs font-medium uppercase tracking-widest text-sage">
-                {String(i + 1).padStart(2, "0")} — {p.tag}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+          {/* Sticky phone */}
+          <div className="relative order-2 lg:order-1">
+            <div className="sticky top-24">
+              <motion.div
+                style={{ rotateY, rotateX, scale, transformPerspective: 1200 }}
+                className="mx-auto"
+              >
+                <PhoneFrame>
+                  <Conversation activeStep={activeStep} />
+                </PhoneFrame>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Scrolling panels */}
+          <div className="order-1 flex flex-col gap-44 pt-12 lg:order-2">
+            {STEPS.map((p, i) => (
+              <div
+                key={i}
+                ref={(el) => {
+                  panelRefs.current[i] = el;
+                }}
+                className="min-h-[40vh]"
+              >
+                <BlurFade>
+                  <div
+                    className={
+                      "text-xs font-semibold uppercase tracking-[0.3em] " +
+                      (activeStep === i ? "text-forest" : "text-muted")
+                    }
+                  >
+                    {p.tag}
+                  </div>
+                </BlurFade>
+                <BlurFade delay={0.05}>
+                  <h3
+                    className={
+                      "mt-3 font-display text-3xl font-black md:text-4xl transition-colors " +
+                      (activeStep === i ? "text-ink-deep" : "text-ink/60")
+                    }
+                  >
+                    {p.title}
+                  </h3>
+                </BlurFade>
+                <BlurFade delay={0.1}>
+                  <p className={"mt-4 text-lg " + (activeStep === i ? "text-ink/80" : "text-ink/50")}>
+                    {p.body}
+                  </p>
+                </BlurFade>
               </div>
-              <h3 className="mt-3 font-display text-3xl font-bold text-ink md:text-4xl">{p.title}</h3>
-              <p className="mt-3 text-lg text-ink/70">{p.body}</p>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
