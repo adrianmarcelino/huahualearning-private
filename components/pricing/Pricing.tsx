@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LampContainer } from "@/components/ui/lamp";
 import { formatRupiah } from "@/lib/utils";
 
 type Pack = { label: string; price: number; featured?: boolean };
@@ -45,29 +44,38 @@ const SUB2: Group[] = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="relative overflow-hidden bg-cream">
-      <LampContainer className="!min-h-[260px] md:!min-h-[300px]">
-        <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">💰 PAKET & HARGA</div>
-        <h2 className="mt-3 text-center font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
-          Paket & Harga
-        </h2>
-        <p className="mt-3 max-w-md text-center text-sm leading-relaxed text-ink/70 md:text-base">
-          Pilih paket yang paling cocok buat targetmu. Bonus stack Rp 667.000 included di semua paket.
-        </p>
-      </LampContainer>
-
-      <div className="container mx-auto -mt-16 max-w-6xl px-4 pb-20 md:pb-28">
-        <PackBlock heading="📘 Materi Buku HSK" groups={SUB1} />
-        <div className="my-12 h-px w-full bg-sage/20" />
-        <PackBlock heading="🎯 Materi Request (Bisnis, Traveling, Conversation)" groups={SUB2} />
-
-        <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-sage/15 bg-white p-6 text-center md:p-8">
-          <p className="text-base font-medium text-ink-deep">
-            ✨ 60 menit/sesi · Min. 1x seminggu · Tanpa batas waktu
+    <section id="pricing" className="relative bg-cream py-20 md:py-28">
+      <div className="container mx-auto max-w-6xl px-4">
+        {/* Section header — clean centered, NO lamp gradient block */}
+        <div className="relative mx-auto max-w-2xl text-center">
+          {/* subtle sage glow halo behind heading (not a solid block) */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 -top-10 -z-10 mx-auto h-32 max-w-md rounded-full opacity-50 blur-3xl"
+            style={{ background: "radial-gradient(closest-side, rgba(143,174,109,0.30), transparent 70%)" }}
+          />
+          <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">💰 PAKET & HARGA</div>
+          <h2 className="mt-3 font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
+            Paket & Harga
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-ink/70 md:text-lg">
+            Pilih paket yang paling cocok buat targetmu. Bonus stack <span className="font-semibold text-forest">Rp 667.000</span> included di semua paket.
           </p>
-          <p className="mt-3 text-sm leading-relaxed text-ink/70">
-            💡 Pro tip: Ajak temen/keluarga belajar bareng. Harga grup makin worth it dibagi rata.
-          </p>
+        </div>
+
+        <div className="mt-12">
+          <PackBlock heading="📘 Materi Buku HSK" groups={SUB1} />
+          <div className="my-12 h-px w-full bg-sage/20" />
+          <PackBlock heading="🎯 Materi Request (Bisnis, Traveling, Conversation)" groups={SUB2} />
+
+          <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-sage/15 bg-white p-6 text-center md:p-8">
+            <p className="text-base font-medium text-ink-deep">
+              ✨ 60 menit/sesi · Min. 1x seminggu · Tanpa batas waktu
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-ink/70">
+              💡 Pro tip: Ajak temen/keluarga belajar bareng. Harga grup makin worth it dibagi rata.
+            </p>
+          </div>
         </div>
       </div>
     </section>
