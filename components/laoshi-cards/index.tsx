@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import { MapPin } from "lucide-react";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { useProximityLift } from "@/lib/proximity-lift";
 
 const LAOSHI = [
   { name: "Laoshi Mei", cred: "HSK 6 Native", spec: "Conversation · HSK 1-3", flag: "🇨🇳", years: 6 },
@@ -52,13 +54,17 @@ function LaoshiCard({
   laoshi: { name: string; cred: string; spec: string; flag: string; years: number };
   index: number;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { style } = useProximityLift(ref, 220, 3);
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 60, clipPath: "inset(100% 0 0 0)" }}
       whileInView={{ opacity: 1, y: 0, clipPath: "inset(0 0 0 0)" }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.9, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -10 }}
+      style={style}
       className="group relative"
     >
       {/* AnimatedPin top tag — appears on hover */}

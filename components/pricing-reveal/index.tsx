@@ -10,6 +10,7 @@ import { NumberTicker } from "@/components/ui/number-ticker";
 import { AuroraText } from "@/components/ui/aurora-text";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { formatRupiah } from "@/lib/utils";
+import { useAppState } from "@/lib/state-context";
 
 const TIERS = [
   { size: 1, total: 2250000, perPerson: 2250000, perks: "Full bonus stack" },
@@ -24,11 +25,13 @@ const PAY_URL = "https://www.huahualearning.com/pay-private-1";
 export function PricingReveal() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
+  const { setMascotPose } = useAppState();
 
   const [opened, setOpened] = useState(false);
   const [count, setCount] = useState<number | null>(null);
   const [reveal, setReveal] = useState(false);
   const [picked, setPicked] = useState(0);
+  const [goldFlash, setGoldFlash] = useState(false);
 
   const tier = TIERS[picked];
 
@@ -50,6 +53,10 @@ export function PricingReveal() {
 
   useEffect(() => {
     if (!reveal) return;
+    // STATE 9 — cheer mascot + gold screen flash + confetti
+    setMascotPose("cheer", 3000);
+    setGoldFlash(true);
+    const off = setTimeout(() => setGoldFlash(false), 400);
     confetti({
       particleCount: 220,
       spread: 110,
@@ -57,10 +64,19 @@ export function PricingReveal() {
       origin: { y: 0.55 },
       colors: ["#8FAE6D", "#4A6B3A", "#F6E3A1", "#FFD700"]
     });
-  }, [reveal]);
+    return () => clearTimeout(off);
+  }, [reveal, setMascotPose]);
 
   return (
     <section id="cta" ref={ref} className="relative overflow-hidden bg-ink-deep py-32 text-cream">
+      {/* STATE 9 gold flash overlay */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: goldFlash ? 0.4 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="pointer-events-none absolute inset-0 z-30 bg-gold-bright"
+        aria-hidden
+      />
       <Meteors number={26} />
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-60"
@@ -134,9 +150,18 @@ export function PricingReveal() {
                 initial={{ scale: 0.5 }}
                 animate={{ scale: 1, x: [0, -10, 10, -6, 6, -3, 3, 0] }}
                 transition={{ scale: { type: "spring", stiffness: 220, damping: 12 }, x: { delay: 0.3, duration: 0.6 } }}
-                className="font-display font-black leading-none"
+                className="relative font-display font-black leading-none"
                 style={{ fontSize: "clamp(72px, 11vw, 160px)" }}
               >
+                {/* sage glow pulse 3s */}
+                <motion.span
+                  aria-hidden
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 0.6, 0.6, 0] }}
+                  transition={{ duration: 3, times: [0, 0.1, 0.85, 1] }}
+                  className="pointer-events-none absolute -inset-10 -z-10 rounded-full"
+                  style={{ background: "radial-gradient(closest-side, rgba(143,174,109,0.55), transparent 70%)" }}
+                />
                 <AuroraText colors={["#FFD700", "#F6E3A1", "#FFD700"]} speed={1.6}>
                   Rp <NumberTicker value={tier.perPerson} duration={1.4} />
                 </AuroraText>

@@ -23,7 +23,12 @@ const SCRIPT: { delay: number; bubble: Bubble; typingBefore?: number }[] = [
 // step 1 = up through voice + grading, step 2 = full script.
 const STEP_END = [2, 5, 6];
 
-export function Conversation({ activeStep = 0 }: { activeStep?: number }) {
+export function Conversation({ activeStep = 0, speed = 1 }: { activeStep?: number; speed?: number }) {
+  const speedRef = useRef(speed);
+  useEffect(() => {
+    speedRef.current = speed;
+  }, [speed]);
+
   const [shown, setShown] = useState<Bubble[]>([]);
   const [typing, setTyping] = useState(false);
   const [active, setActive] = useState<string | null>(null);
@@ -47,11 +52,11 @@ export function Conversation({ activeStep = 0 }: { activeStep?: number }) {
       const step = SCRIPT[i];
       if (step.typingBefore && step.bubble.side === "in") {
         setTyping(true);
-        await wait(step.typingBefore);
+        await wait(step.typingBefore / speedRef.current);
         if (cancelRef.current) break;
         setTyping(false);
       } else {
-        await wait(step.delay);
+        await wait(step.delay / speedRef.current);
       }
       if (cancelRef.current) break;
       setShown((prev) => (prev.find((p) => p.id === step.bubble.id) ? prev : [...prev, step.bubble]));

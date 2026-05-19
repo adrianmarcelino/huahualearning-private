@@ -1,11 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
 import { AuroraText } from "@/components/ui/aurora-text";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { BorderBeam } from "@/components/ui/border-beam";
 import { ProviderCard, HuahuaCard } from "./card-3d";
 
 const FEATURES = [
@@ -23,7 +23,10 @@ const PROVIDERS = [
   { name: "Claude", dot: "#CC785C", caps: [true, true, true, false, false, false] }
 ];
 
+// STATE 3 — STATES_VERIFICATION.md item 3.
+// One hovered key drives sibling dim, mascot listening, particle burst on the card itself.
 export function Differentiator() {
+  const [hovered, setHovered] = useState<string | null>(null);
   return (
     <section id="diff" className="relative overflow-hidden bg-cream-2 py-32">
       <Spotlight />
@@ -48,13 +51,19 @@ export function Differentiator() {
         <div className="mt-20 grid grid-cols-1 gap-6 lg:grid-cols-4">
           {PROVIDERS.map((p, i) => (
             <BlurFade key={p.name} delay={0.25 + i * 0.1} className="h-full">
-              <ProviderCard name={p.name} dot={p.dot}>
+              <ProviderCard
+                name={p.name}
+                dot={p.dot}
+                cardId={p.name}
+                hovered={hovered}
+                setHovered={setHovered}
+              >
                 <FeatureList caps={p.caps} muted />
               </ProviderCard>
             </BlurFade>
           ))}
           <BlurFade delay={0.6} className="h-full">
-            <HuahuaCard>
+            <HuahuaCard cardId="huahua" hovered={hovered} setHovered={setHovered}>
               <FeatureList caps={[true, true, true, true, true, true]} />
             </HuahuaCard>
           </BlurFade>

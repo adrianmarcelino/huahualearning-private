@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { PhoneFrame } from "./frame";
 import { Conversation } from "./conversation";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { useAppState } from "@/lib/state-context";
 
 const STEPS = [
   {
@@ -26,12 +27,40 @@ const STEPS = [
 
 export function PhoneMockupSection() {
   const ref = useRef<HTMLElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const { setMascotPose, setMascotLookAt } = useAppState();
+  const [hoverSpeed, setHoverSpeed] = useState(1);
 
-  // phone tilt — diagonal coming in, straight at center, opposite out
-  const rotateY = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [-14, 0, 0, 14]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [8, 0, 0, -8]);
+  // scroll-driven tilt
+  const scrollRotY = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [-14, 0, 0, 14]);
+  const scrollRotX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [8, 0, 0, -8]);
   const scale = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0.92, 1, 1, 0.94]);
+
+  // STATE 8 — mouse-driven tilt overlay (max ±5deg) added to scroll tilt
+  const mouseRotY = useSpring(useMotionValue(0), { stiffness: 220, damping: 22 });
+  const mouseRotX = useSpring(useMotionValue(0), { stiffness: 220, damping: 22 });
+
+  const rotateY = useTransform([scrollRotY, mouseRotY], ([s, m]: any) => Number(s) + Number(m));
+  const rotateX = useTransform([scrollRotX, mouseRotX], ([s, m]: any) => Number(s) + Number(m));
+
+  const onPhoneMove = (e: React.MouseEvent) => {
+    if (!phoneRef.current) return;
+    const r = phoneRef.current.getBoundingClientRect();
+    const nx = (e.clientX - (r.left + r.width / 2)) / r.width;
+    const ny = (e.clientY - (r.top + r.height / 2)) / r.height;
+    mouseRotY.set(nx * 10); // ±5deg-ish
+    mouseRotX.set(-ny * 10);
+    setMascotLookAt({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+    setMascotPose("listening");
+    setHoverSpeed(1.5);
+  };
+  const onPhoneLeave = () => {
+    mouseRotY.set(0);
+    mouseRotX.set(0);
+    setMascotPose("idle");
+    setHoverSpeed(1);
+  };
 
   // step driver — based on which step panel is most in view
   const [activeStep, setActiveStep] = useState(0);
@@ -74,11 +103,14 @@ export function PhoneMockupSection() {
           <div className="relative order-2 lg:order-1">
             <div className="sticky top-24">
               <motion.div
+                ref={phoneRef}
+                onMouseMove={onPhoneMove}
+                onMouseLeave={onPhoneLeave}
                 style={{ rotateY, rotateX, scale, transformPerspective: 1200 }}
                 className="mx-auto"
               >
                 <PhoneFrame>
-                  <Conversation activeStep={activeStep} />
+                  <Conversation activeStep={activeStep} speed={hoverSpeed} />
                 </PhoneFrame>
               </motion.div>
             </div>
