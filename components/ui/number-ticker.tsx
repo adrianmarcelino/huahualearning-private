@@ -1,7 +1,10 @@
 "use client";
 
+// v6 FIX: drop inView gate. Number was stuck at 0 because IntersectionObserver
+// never fired on mobile in some layouts. Animate on mount instead — total
+// animation is short (~1.5s) and harmless if section is offscreen.
+
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export function NumberTicker({
@@ -13,11 +16,12 @@ export function NumberTicker({
   duration?: number;
   className?: string;
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10%" });
   const [n, setN] = useState(0);
+  const startedRef = useRef(false);
+
   useEffect(() => {
-    if (!inView) return;
+    if (startedRef.current) return;
+    startedRef.current = true;
     const start = performance.now();
     let raf = 0;
     const loop = (t: number) => {
@@ -28,10 +32,7 @@ export function NumberTicker({
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value, duration]);
-  return (
-    <span ref={ref} className={cn("tabular-nums", className)}>
-      {n.toLocaleString("id-ID")}
-    </span>
-  );
+  }, [value, duration]);
+
+  return <span className={cn("tabular-nums", className)}>{n.toLocaleString("id-ID")}</span>;
 }

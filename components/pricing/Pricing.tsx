@@ -1,7 +1,5 @@
 "use client";
 
-// Pricing — Lamp Effect header + 4 card groups (HSK 1-on-1, HSK Grup, Request 1-on-1, Request Grup).
-
 import { motion } from "framer-motion";
 import { LampContainer } from "@/components/ui/lamp";
 import { formatRupiah } from "@/lib/utils";
@@ -48,25 +46,23 @@ const SUB2: Group[] = [
 export function Pricing() {
   return (
     <section id="pricing" className="relative overflow-hidden bg-cream">
-      <LampContainer className="!min-h-[360px]">
-        <h2
-          className="text-center font-display font-black text-ink-deep"
-          style={{ fontSize: "clamp(28px, 7vw, 48px)" }}
-        >
+      <LampContainer className="!min-h-[320px]">
+        <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">💰 PAKET & HARGA</div>
+        <h2 className="mt-3 text-center font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
           Paket & Harga
         </h2>
       </LampContainer>
 
-      <div className="container mx-auto -mt-28 px-4 pb-16 md:pb-24 lg:pb-32">
+      <div className="container mx-auto -mt-24 max-w-6xl px-4 pb-20 md:pb-28">
         <PackBlock heading="📘 Materi Buku HSK" groups={SUB1} />
-        <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-sage/30 to-transparent" />
+        <div className="my-12 h-px w-full bg-sage/20" />
         <PackBlock heading="🎯 Materi Request (Bisnis, Traveling, Conversation)" groups={SUB2} />
 
-        <div className="mx-auto mt-12 max-w-2xl rounded-3xl border border-sage/15 bg-white p-6 text-center shadow-soft md:p-8">
+        <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-sage/15 bg-white p-6 text-center md:p-8">
           <p className="text-base font-medium text-ink-deep">
             ✨ 60 menit/sesi · Min. 1x seminggu · Tanpa batas waktu
           </p>
-          <p className="mt-3 text-sm text-ink/70">
+          <p className="mt-3 text-sm leading-relaxed text-ink/70">
             💡 Pro tip: Ajak temen/keluarga belajar bareng. Harga grup makin worth it dibagi rata.
           </p>
         </div>
@@ -78,29 +74,29 @@ export function Pricing() {
 function PackBlock({ heading, groups }: { heading: string; groups: Group[] }) {
   return (
     <div className="mx-auto max-w-5xl">
-      <h3 className="font-display text-2xl font-black text-ink-deep md:text-3xl">{heading}</h3>
+      <h3 className="font-display text-2xl font-bold tracking-tight text-ink-deep md:text-3xl">{heading}</h3>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         {groups.map((g) => (
-          <div key={g.title} className="rounded-3xl border border-sage/15 bg-white p-6 shadow-soft">
+          <div key={g.title} className="rounded-2xl border border-sage/15 bg-white p-6 md:p-8">
             <div className="text-xs font-bold uppercase tracking-widest text-sage">{g.title}</div>
             {g.subtitle && <p className="mt-1 text-xs text-muted">{g.subtitle}</p>}
             <div className="mt-5 space-y-3">
               {g.packs.map((p, i) => (
                 <motion.div
                   key={p.label}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 8 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
-                  transition={{ delay: i * 0.08 }}
+                  transition={{ delay: i * 0.06 }}
                   className={
-                    "flex items-center justify-between rounded-2xl border px-4 py-4 " +
+                    "flex items-center justify-between rounded-xl border px-4 py-4 " +
                     (p.featured
-                      ? "border-2 border-gold-bright bg-gradient-to-br from-gold/15 to-transparent shadow-[0_0_24px_rgba(255,215,0,0.15)]"
-                      : "border-sage/20 bg-cream/40")
+                      ? "border-2 border-gold-bright bg-gold/10"
+                      : "border-sage/15 bg-cream/40")
                   }
                 >
                   <span className="text-sm font-semibold text-ink-deep md:text-base">{p.label}</span>
-                  <span className="font-display text-lg font-black text-forest md:text-xl">
+                  <span className="font-display text-lg font-bold text-forest md:text-xl">
                     {formatRupiah(p.price)}
                   </span>
                 </motion.div>

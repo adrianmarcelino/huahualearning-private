@@ -109,7 +109,7 @@ export function LeadForm() {
   if (done) return <Success />;
 
   return (
-    <section id="cta" className="relative bg-cream py-16 md:py-24 lg:py-32">
+    <section id="cta" className="relative bg-cream py-20 md:py-28">
       <MultiStepLoader
         loading={loading}
         steps={LOAD_STEPS}
@@ -122,13 +122,14 @@ export function LeadForm() {
 
       <div className="container mx-auto max-w-2xl px-4">
         <div className="text-center">
-          <h2 className="font-display font-black text-ink-deep" style={{ fontSize: "clamp(28px, 7vw, 44px)" }}>
-            <TextGenerateEffect words="Daftar dalam **30 detik**" />
+          <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">📝 DAFTAR</div>
+          <h2 className="mt-3 font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
+            Daftar dalam 30 detik
           </h2>
           <p className="mt-3 text-base text-muted">Tim Huahua bakal WA kamu max 30 menit setelah submit.</p>
         </div>
 
-        <div className="mt-10 rounded-3xl border border-sage/10 bg-white p-6 shadow-soft-lg md:p-10">
+        <div className="mt-10 rounded-2xl border border-sage/15 bg-white p-6 md:p-8">
           <DotProgress current={step} total={total} />
           <AnimatePresence mode="wait">
             {step < STEPS.length ? (

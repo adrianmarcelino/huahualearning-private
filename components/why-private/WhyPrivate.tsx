@@ -1,10 +1,6 @@
 "use client";
 
-// "Private Class di Huahua Learning" — 5 feature blocks. Uses Aceternity 3D card hover pattern.
-// Mobile: stack vertically.
-
 import { motion } from "framer-motion";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 const FEATURES = [
   {
@@ -36,29 +32,28 @@ const FEATURES = [
 
 export function WhyPrivate() {
   return (
-    <section id="why-private" className="relative bg-cream-2 py-16 md:py-24 lg:py-32">
-      <div className="container mx-auto px-4">
+    <section id="why-private" className="relative bg-cream py-20 md:py-28">
+      <div className="container mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-sage">Kenapa private?</div>
-          <h2 className="mt-3 font-display font-black text-ink-deep" style={{ fontSize: "clamp(28px, 7vw, 44px)" }}>
-            <TextGenerateEffect words="Private Class di **Huahua Learning**" />
+          <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">🎓 Kenapa Privat</div>
+          <h2 className="mt-3 font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
+            Private Class di Huahua Learning
           </h2>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
             <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ delay: i * 0.08, duration: 0.6 }}
-              whileHover={{ y: -6 }}
-              className="relative rounded-3xl border border-sage/15 bg-white p-6 shadow-soft hover:shadow-soft-lg"
+              transition={{ delay: i * 0.06, duration: 0.5 }}
+              className="rounded-2xl border border-sage/15 bg-white p-6 md:p-8 transition-shadow hover:shadow-md"
             >
               <div className="text-3xl">{f.icon}</div>
-              <h3 className="mt-3 font-display text-lg font-black text-ink-deep">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink/70">{f.body}</p>
+              <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-ink-deep">{f.title}</h3>
+              <p className="mt-2 text-base leading-relaxed text-ink/70">{f.body}</p>
             </motion.div>
           ))}
         </div>

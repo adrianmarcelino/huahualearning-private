@@ -1,9 +1,6 @@
 "use client";
 
-// Laoshi cards — 5 real laoshi with photos in public/laoshi/, BackgroundLines behind.
-
 import { BackgroundLines } from "@/components/ui/background-lines";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -53,26 +50,27 @@ const LAOSHI = [
 
 export function Laoshi() {
   return (
-    <section id="laoshi" className="relative overflow-hidden bg-cream py-16 md:py-24 lg:py-32">
-      <BackgroundLines />
-      <div className="container mx-auto px-4">
+    <section id="laoshi" className="relative overflow-hidden bg-cream py-20 md:py-28">
+      <div className="opacity-50">
+        <BackgroundLines />
+      </div>
+      <div className="container relative mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-sage">Laoshi</div>
-          <h2 className="mt-3 font-display font-black text-ink-deep" style={{ fontSize: "clamp(28px, 7vw, 44px)" }}>
-            <TextGenerateEffect words="Laoshi **Kamu**" />
+          <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">👩‍🏫 TIM PENGAJAR</div>
+          <h2 className="mt-3 font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
+            Laoshi Kamu
           </h2>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {LAOSHI.map((l, i) => (
             <motion.div
               key={l.name}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: i * 0.08, duration: 0.6 }}
-              whileHover={{ y: -6 }}
-              className="overflow-hidden rounded-3xl border border-sage/15 bg-white shadow-soft hover:shadow-soft-lg"
+              transition={{ delay: i * 0.06, duration: 0.5 }}
+              className="overflow-hidden rounded-2xl border border-sage/15 bg-white transition-shadow hover:shadow-md"
             >
               <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-sage to-forest">
                 <Image
@@ -81,17 +79,15 @@ export function Laoshi() {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
                   className="object-cover"
-                  priority={false}
                 />
               </div>
-              <div className="space-y-1.5 p-4">
+              <div className="space-y-1.5 p-5">
                 <div className="font-serif text-2xl font-bold text-ink-deep">{l.chinese}</div>
                 <div className="text-sm font-bold text-sage">{l.name}</div>
                 <div className="text-xs leading-snug text-ink/80">{l.cert}</div>
                 {l.experience && <div className="text-xs italic text-muted">{l.experience}</div>}
-                <div className="mt-2 pt-2 border-t border-sage/10 text-[11px] text-ink/70">
-                  <span className="font-bold uppercase tracking-wider text-forest">Fokus:</span>{" "}
-                  {l.fokus}
+                <div className="mt-3 border-t border-sage/10 pt-2 text-[11px] leading-relaxed text-ink/70">
+                  <span className="font-bold uppercase tracking-wider text-forest">Fokus:</span> {l.fokus}
                 </div>
               </div>
             </motion.div>
