@@ -46,14 +46,17 @@ const SUB2: Group[] = [
 export function Pricing() {
   return (
     <section id="pricing" className="relative overflow-hidden bg-cream">
-      <LampContainer className="!min-h-[320px]">
+      <LampContainer className="!min-h-[260px] md:!min-h-[300px]">
         <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">💰 PAKET & HARGA</div>
         <h2 className="mt-3 text-center font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
           Paket & Harga
         </h2>
+        <p className="mt-3 max-w-md text-center text-sm leading-relaxed text-ink/70 md:text-base">
+          Pilih paket yang paling cocok buat targetmu. Bonus stack Rp 667.000 included di semua paket.
+        </p>
       </LampContainer>
 
-      <div className="container mx-auto -mt-24 max-w-6xl px-4 pb-20 md:pb-28">
+      <div className="container mx-auto -mt-16 max-w-6xl px-4 pb-20 md:pb-28">
         <PackBlock heading="📘 Materi Buku HSK" groups={SUB1} />
         <div className="my-12 h-px w-full bg-sage/20" />
         <PackBlock heading="🎯 Materi Request (Bisnis, Traveling, Conversation)" groups={SUB2} />
