@@ -24,6 +24,7 @@
     "class-variance-authority": "^0.7.0",
     "lucide-react": "^0.453.0",
     "canvas-confetti": "^1.9.3",
+    "@lottiefiles/react-lottie-player": "^3.5.4",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
     "@tsparticles/engine": "^3.5.0"

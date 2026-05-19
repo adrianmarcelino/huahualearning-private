@@ -1,26 +1,21 @@
 "use client";
 
-// Inspired by Magic UI Number Ticker
-// https://magicui.design/docs/components/number-ticker
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export function NumberTicker({
   value,
-  duration = 1.6,
-  className,
-  format = (n) => n.toLocaleString("id-ID")
+  duration = 1.5,
+  className
 }: {
   value: number;
   duration?: number;
   className?: string;
-  format?: (n: number) => string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
   const [n, setN] = useState(0);
-
   useEffect(() => {
     if (!inView) return;
     const start = performance.now();
@@ -34,10 +29,9 @@ export function NumberTicker({
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   }, [inView, value, duration]);
-
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
-      {format(n)}
+      {n.toLocaleString("id-ID")}
     </span>
   );
 }

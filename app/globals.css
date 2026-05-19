@@ -7,32 +7,17 @@
   --sage: #8FAE6D;
   --gold: #F6E3A1;
   --ink: #4F4A45;
-  --muted: #9C948B;
 }
 
 html, body {
   background: var(--cream);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
 }
 
 * { box-sizing: border-box; }
 
 ::selection { background: var(--gold); color: var(--ink); }
 
-@media (hover: hover) and (pointer: fine) {
-  html { cursor: none; }
-}
-
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-.bg-noise {
-  background-image: radial-gradient(rgba(79,74,69,0.05) 1px, transparent 1px);
-  background-size: 4px 4px;
-}
-
-.gradient-radial {
-  background: radial-gradient(circle at 50% 0%, rgba(143,174,109,0.18), transparent 60%);
-}

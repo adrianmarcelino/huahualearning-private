@@ -15,7 +15,7 @@ export type LeadPayload = {
   ad_id?: string;
 };
 
-export async function submitLead(payload: Omit<LeadPayload, "action" | "source"> & { source?: "private_subdomain" }) {
+export async function submitLead(payload: Omit<LeadPayload, "source"> & { source?: "private_subdomain" }) {
   const body = { action: "private_lead", source: "private_subdomain", ...payload };
   const res = await fetch(ENDPOINT, {
     method: "POST",
@@ -26,7 +26,8 @@ export async function submitLead(payload: Omit<LeadPayload, "action" | "source">
 }
 
 export function genLeadId() {
-  return "LEAD-" + Math.random().toString(36).slice(2, 10).toUpperCase();
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `LEAD-${Date.now()}-${rand}`;
 }
 
 export function isValidIndoPhone(v: string) {

@@ -1,25 +1,25 @@
-import { Hero } from "@/components/hero";
-import { PhoneMockupSection } from "@/components/phone-mockup";
-import { Differentiator } from "@/components/differentiator";
-import { BonusStack } from "@/components/bonus-stack";
-import { VideoMarquee } from "@/components/video-marquee";
-import { LaoshiCards } from "@/components/laoshi-cards";
-import { PricingReveal } from "@/components/pricing-reveal";
-import { VariantInit } from "@/components/variant-init";
-import { StickyCta } from "@/components/shared/sticky-cta";
+import { Hero } from "@/components/hero/Hero";
+import { CaraKerja } from "@/components/cara-kerja/CaraKerja";
+import { Differentiator } from "@/components/differentiator/Diff";
+import { Bonus } from "@/components/bonus/Bonus";
+import { Video } from "@/components/video/Video";
+import { Bento } from "@/components/bento/Bento";
+import { Laoshi } from "@/components/laoshi/Laoshi";
+import { Checkout } from "@/components/checkout/Checkout";
+import { VariantInit } from "@/components/VariantInit";
 
-export default function DirectPage() {
+export default function Direct() {
   return (
-    <main className="relative overflow-x-clip">
-      <VariantInit assign="B" />
+    <main className="relative overflow-x-clip pb-16">
+      <VariantInit force="B" />
       <Hero variant="B" />
-      <PhoneMockupSection />
+      <CaraKerja />
       <Differentiator />
-      <BonusStack />
-      <VideoMarquee />
-      <LaoshiCards />
-      <PricingReveal />
-      <StickyCta />
+      <Bonus />
+      <Video />
+      <Bento />
+      <Laoshi />
+      <Checkout />
     </main>
   );
 }

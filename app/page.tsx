@@ -1,22 +1,24 @@
-import { Hero } from "@/components/hero";
-import { PhoneMockupSection } from "@/components/phone-mockup";
-import { Differentiator } from "@/components/differentiator";
-import { BonusStack } from "@/components/bonus-stack";
-import { VideoMarquee } from "@/components/video-marquee";
-import { LaoshiCards } from "@/components/laoshi-cards";
-import { LeadForm } from "@/components/lead-form";
-import { VariantInit } from "@/components/variant-init";
+import { Hero } from "@/components/hero/Hero";
+import { CaraKerja } from "@/components/cara-kerja/CaraKerja";
+import { Differentiator } from "@/components/differentiator/Diff";
+import { Bonus } from "@/components/bonus/Bonus";
+import { Video } from "@/components/video/Video";
+import { Bento } from "@/components/bento/Bento";
+import { Laoshi } from "@/components/laoshi/Laoshi";
+import { LeadForm } from "@/components/form/Form";
+import { VariantInit } from "@/components/VariantInit";
 
 export default function Page() {
   return (
     <main className="relative overflow-x-clip">
       <VariantInit redirectIfB />
       <Hero variant="A" />
-      <PhoneMockupSection />
+      <CaraKerja />
       <Differentiator />
-      <BonusStack />
-      <VideoMarquee />
-      <LaoshiCards />
+      <Bonus />
+      <Video />
+      <Bento />
+      <Laoshi />
       <LeadForm />
     </main>
   );
