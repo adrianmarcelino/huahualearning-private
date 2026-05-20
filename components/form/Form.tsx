@@ -8,6 +8,7 @@ import { Check, Loader2 } from "lucide-react";
 import { MultiStepLoader } from "@/components/ui/multi-step-loader";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { submitLead, genLeadId, isValidIndoPhone } from "@/lib/apps-script";
+import { fbqTrack } from "@/lib/fpixel";
 import { cn } from "@/lib/utils";
 
 const PAY_REDIRECT = "https://www.huahualearning.com/pay-private";
@@ -58,13 +59,13 @@ const STEPS = [
 
 const LOAD_STEPS_A = [
   { text: "Menyimpan datamu…" },
-  { text: "Notif ke Laoshi Adrian…" },
+  { text: "Notif ke tim Huahua…" },
   { text: "Selesai! Cek WA kamu 🐼" }
 ];
 
 const LOAD_STEPS_B = [
   { text: "Menyimpan datamu…" },
-  { text: "Notif ke Laoshi Adrian…" },
+  { text: "Notif ke tim Huahua…" },
   { text: "Lanjut ke halaman pembayaran 💳" }
 ];
 
@@ -91,19 +92,23 @@ export function LeadForm({
   const [err, setErr] = useState("");
   const leadIdRef = useRef<string>("");
 
-  const total = STEPS.length + 1;
+  // variant B (direct) skips the contact step — pembayaran re-asks kontak.
+  const total = variant === "B" ? STEPS.length : STEPS.length + 1;
 
   const next = (val: string) => {
-    setA((x) => ({ ...x, [STEPS[step].key]: val }));
-    setTimeout(() => setStep((s) => s + 1), 280);
+    const updated = { ...a, [STEPS[step].key]: val };
+    setA(updated);
+    const isLastQuestion = step === STEPS.length - 1;
+    if (variant === "B" && isLastQuestion) {
+      // no "Kontak kamu" step — submit & lanjut langsung ke pembayaran
+      setTimeout(() => void doSubmit(updated), 280);
+    } else {
+      setTimeout(() => setStep((s) => s + 1), 280);
+    }
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const doSubmit = async (answers: Answers) => {
     setErr("");
-    if (!name.trim()) return setErr("Nama wajib diisi.");
-    if (!isValidIndoPhone(wa)) return setErr("Nomor WA harus mulai 08, +62, atau 62.");
-
     setLoading(true);
     const leadId = genLeadId();
     leadIdRef.current = leadId;
@@ -116,16 +121,26 @@ export function LeadForm({
         lead_id: leadId,
         name,
         whatsapp: wa,
-        goal: a.goal ?? "",
-        level: a.level ?? "",
-        group_size: a.group_size ?? "",
-        material_choice: a.material_choice ?? "",
-        timing: a.timing ?? "",
+        goal: answers.goal ?? "",
+        level: answers.level ?? "",
+        group_size: answers.group_size ?? "",
+        material_choice: answers.material_choice ?? "",
+        timing: answers.timing ?? "",
         notes,
         variant,
         ad_id: adId
       } as any);
     } catch {}
+    // Meta Pixel — form completed
+    fbqTrack("Lead");
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErr("");
+    if (!name.trim()) return setErr("Nama wajib diisi.");
+    if (!isValidIndoPhone(wa)) return setErr("Nomor WA harus mulai 08, +62, atau 62.");
+    await doSubmit(a);
   };
 
   const onLoaderDone = () => {
@@ -142,6 +157,8 @@ export function LeadForm({
         timing: a.timing ?? "",
         notes
       });
+      // Meta Pixel — heading to the payment page
+      fbqTrack("InitiateCheckout");
       window.location.href = `${PAY_REDIRECT}?${params.toString()}`;
       return;
     }

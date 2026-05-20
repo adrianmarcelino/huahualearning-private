@@ -12,8 +12,10 @@ import { ArrowRight, Check } from "lucide-react";
 
 export function Hero({ variant }: { variant: "A" | "B" }) {
   const ctaLabel = variant === "B" ? "Reveal Harga" : "Daftar Sekarang";
+  // variant B "Reveal Harga" jumps to the pricing/offer section; A goes to the form.
+  const ctaHref = variant === "B" ? "#pricing" : "#cta";
   return (
-    <section className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-cream px-4 pt-28">
+    <section className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-cream px-4 pt-20">
       {/* layer 1: cream base (bg-cream above)
           layer 2: dotted-grid texture
           layer 3: slow sage haze (no iridescence)
@@ -70,7 +72,7 @@ export function Hero({ variant }: { variant: "A" | "B" }) {
 
         <div className="mt-8 flex flex-col items-center gap-3">
           <a
-            href="#cta"
+            href={ctaHref}
             className="inline-flex h-14 min-h-[48px] items-center justify-center gap-2 rounded-full bg-sage px-8 text-base font-semibold text-cream transition-colors hover:bg-sage-dark"
           >
             {ctaLabel}

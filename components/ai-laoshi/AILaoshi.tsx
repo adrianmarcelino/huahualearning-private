@@ -155,7 +155,7 @@ export function AILaoshi() {
                   href="#cta"
                   className="mt-6 inline-flex h-12 min-h-[48px] items-center gap-2 rounded-full bg-sage px-6 text-base font-semibold text-cream hover:bg-sage-dark"
                 >
-                  Daftar & Coba AI Laoshi
+                  Daftar Kelas & Coba AI Laoshi
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </motion.div>
