@@ -6,14 +6,14 @@
 
 import { Highlight } from "@/components/ui/hero-highlight";
 
-type Row = { label: string; alone: string; group: string; huahua: string; huahuaBold?: boolean };
+type Row = { label: string; app: string; group: string; huahua: string; huahuaBold?: boolean };
 
 const ROWS: Row[] = [
-  { label: "Perhatian guru", alone: "0%", group: "~20%", huahua: "100%", huahuaBold: true },
-  { label: "Materi sesuai kebutuhan", alone: "❌", group: "❌", huahua: "✅" },
-  { label: "Koreksi real-time", alone: "❌", group: "Kadang", huahua: "Tiap detik", huahuaBold: true },
-  { label: "Jadwal fleksibel", alone: "✅", group: "❌", huahua: "✅" },
-  { label: "Progress jelas", alone: "❌", group: "Kadang", huahua: "✅" }
+  { label: "Perhatian guru", app: "0%", group: "~20%", huahua: "100%", huahuaBold: true },
+  { label: "Materi sesuai kebutuhan", app: "❌", group: "❌", huahua: "✅" },
+  { label: "Koreksi real-time", app: "Otomatis", group: "Kadang", huahua: "Tiap detik", huahuaBold: true },
+  { label: "Jadwal fleksibel", app: "✅", group: "❌", huahua: "✅" },
+  { label: "Progress jelas", app: "Skor aja", group: "Kadang", huahua: "✅" }
 ];
 
 export function Comparison() {
@@ -23,7 +23,7 @@ export function Comparison() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">💪 BEDA NYATA</div>
           <h2 className="mt-3 font-display font-bold tracking-tight text-ink-deep text-3xl md:text-4xl leading-tight">
-            Belajar 1-on-1 = Progress 3× Lebih Cepat
+            Belajar 1-on-1 = Progress Jauh Lebih Cepat
           </h2>
         </div>
 
@@ -33,7 +33,7 @@ export function Comparison() {
             <thead>
               <tr className="border-b border-sage/15 bg-cream-2">
                 <th className="px-5 py-4 text-xs font-bold uppercase tracking-widest text-sage">&nbsp;</th>
-                <th className="px-5 py-4 text-xs font-bold uppercase tracking-widest text-sage">Sendirian</th>
+                <th className="px-5 py-4 text-xs font-bold uppercase tracking-widest text-sage">Aplikasi</th>
                 <th className="px-5 py-4 text-xs font-bold uppercase tracking-widest text-sage">Kelas Rame</th>
                 <th
                   className="px-5 py-4 text-xs font-bold uppercase tracking-widest text-sage"
@@ -47,7 +47,7 @@ export function Comparison() {
               {ROWS.map((r) => (
                 <tr key={r.label} className="border-b border-sage/10 last:border-b-0">
                   <td className="px-5 py-4 text-sm font-semibold text-ink-deep">{r.label}</td>
-                  <td className="px-5 py-4 text-sm text-ink/70">{r.alone}</td>
+                  <td className="px-5 py-4 text-sm text-ink/70">{r.app}</td>
                   <td className="px-5 py-4 text-sm text-ink/70">{r.group}</td>
                   <td
                     className={"px-5 py-4 text-sm text-ink-deep " + (r.huahuaBold ? "font-bold" : "font-medium")}
@@ -68,8 +68,8 @@ export function Comparison() {
               <div className="text-sm font-bold text-sage">{r.label}</div>
               <div className="mt-3 space-y-2 text-sm">
                 <div className="grid grid-cols-2 items-center gap-3 border-b border-sage/10 pb-2">
-                  <span className="text-muted">Sendirian</span>
-                  <span className="text-right font-medium text-ink-deep">{r.alone}</span>
+                  <span className="text-muted">Aplikasi</span>
+                  <span className="text-right font-medium text-ink-deep">{r.app}</span>
                 </div>
                 <div className="grid grid-cols-2 items-center gap-3 border-b border-sage/10 pb-2">
                   <span className="text-muted">Kelas Rame</span>

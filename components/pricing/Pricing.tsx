@@ -82,6 +82,12 @@ export function Pricing() {
   );
 }
 
+// Harga grup dibagi 2 orang (kasus paling mahal per orang) → "≈ Rp 1,5jt".
+function perPerson(total: number) {
+  const jt = (total / 2 / 1_000_000).toFixed(1).replace(".", ",");
+  return `Rp ${jt}jt`;
+}
+
 function PackBlock({ heading, groups }: { heading: string; groups: Group[] }) {
   return (
     <div className="mx-auto max-w-5xl">
@@ -107,9 +113,16 @@ function PackBlock({ heading, groups }: { heading: string; groups: Group[] }) {
                   }
                 >
                   <span className="text-sm font-semibold text-ink-deep md:text-base">{p.label}</span>
-                  <span className="font-display text-lg font-bold text-forest md:text-xl">
-                    {formatRupiah(p.price)}
-                  </span>
+                  <div className="flex flex-col items-end">
+                    <span className="font-display text-lg font-bold text-forest md:text-xl">
+                      {formatRupiah(p.price)}
+                    </span>
+                    {g.title === "Grup" && (
+                      <span className="mt-0.5 text-xs text-muted">
+                        ≈ {perPerson(p.price)}/orang kalau berdua
+                      </span>
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </div>

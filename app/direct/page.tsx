@@ -3,6 +3,7 @@ import { WhyPrivate } from "@/components/why-private/WhyPrivate";
 import { CaraKerja } from "@/components/cara-kerja/CaraKerja";
 import { Comparison } from "@/components/comparison/Comparison";
 import { Testimonial } from "@/components/testimonial/Testimonial";
+import { Usia } from "@/components/usia/Usia";
 import { Pricing } from "@/components/pricing/Pricing";
 import { Bonus } from "@/components/bonus/Bonus";
 import { AILaoshi } from "@/components/ai-laoshi/AILaoshi";
@@ -23,6 +24,7 @@ export default function Direct() {
       <AILaoshi />
       <Laoshi />
       <Testimonial />
+      <Usia />
       <FAQ />
       <FinalCTA />
       <LeadForm
