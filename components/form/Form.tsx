@@ -132,7 +132,7 @@ export function LeadForm({
       } as any);
     } catch {}
     // Meta Pixel — form completed
-    fbqTrack("Lead");
+    fbqTrack("Lead", { value: 4350000, currency: "IDR" });
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -159,6 +159,15 @@ export function LeadForm({
       });
       // Meta Pixel — heading to the payment page
       fbqTrack("InitiateCheckout");
+      // Forward Meta + UTM tracking params from current page to /pay-private
+      const trackingKeys = ["fbclid", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+      const currentParams = new URLSearchParams(window.location.search);
+      trackingKeys.forEach((key) => {
+        const value = currentParams.get(key);
+        if (value && !params.has(key)) {
+          params.set(key, value);
+        }
+      });
       window.location.href = `${PAY_REDIRECT}?${params.toString()}`;
       return;
     }
