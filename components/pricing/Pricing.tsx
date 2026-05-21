@@ -88,6 +88,11 @@ function perPerson(total: number) {
   return `Rp ${jt}jt`;
 }
 
+// Harga normal (coret) = harga akhir × 1.4 — rumus sama persis dengan /pay-private.
+function getCrossed(price: number) {
+  return Math.round(price * 1.4);
+}
+
 function PackBlock({ heading, groups }: { heading: string; groups: Group[] }) {
   return (
     <div className="mx-auto max-w-5xl">
@@ -114,6 +119,9 @@ function PackBlock({ heading, groups }: { heading: string; groups: Group[] }) {
                 >
                   <span className="text-sm font-semibold text-ink-deep md:text-base">{p.label}</span>
                   <div className="flex flex-col items-end">
+                    <span className="text-xs font-medium text-muted line-through">
+                      {formatRupiah(getCrossed(p.price))}
+                    </span>
                     <span className="font-display text-lg font-bold text-forest md:text-xl">
                       {formatRupiah(p.price)}
                     </span>

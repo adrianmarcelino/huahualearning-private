@@ -6,12 +6,14 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-type Kelas = { src: string; alt: string; eyebrow: string; title: string; body: string };
+type Kelas = { src: string; alt: string; w: number; h: number; eyebrow: string; title: string; body: string };
 
 const KELAS: Kelas[] = [
   {
     src: "/kelas/kelas-anak.jpg",
     alt: "Kelas privat anak — Laoshi Huahua mengajar materi Nada & Pelafalan",
+    w: 480,
+    h: 1040,
     eyebrow: "🧒 Anak-anak",
     title: "Seru buat anak",
     body: "Laoshi sabar, materi dibikin interaktif dan penuh visual biar anak betah belajar. Cocok mulai dari usia 4 tahun."
@@ -19,6 +21,8 @@ const KELAS: Kelas[] = [
   {
     src: "/kelas/kelas-dewasa.jpg",
     alt: "Kelas privat dewasa — belajar Mandarin bareng pasangan dan teman",
+    w: 818,
+    h: 1600,
     eyebrow: "🧑 Dewasa & Profesional",
     title: "Pas buat dewasa",
     body: "Materi disesuaikan targetmu — HSK, bisnis, atau conversation. Bisa juga belajar bareng pasangan, temen, atau keluarga dalam satu kelas."
@@ -49,15 +53,15 @@ export function Usia() {
               transition={{ delay: i * 0.08, duration: 0.5 }}
               className="overflow-hidden rounded-2xl border border-sage/15 bg-white shadow-sm"
             >
-              <div className="relative aspect-[4/5] w-full">
-                <Image
-                  src={k.src}
-                  alt={k.alt}
-                  fill
-                  sizes="(min-width: 640px) 380px, 100vw"
-                  className="object-cover object-top"
-                />
-              </div>
+              {/* screenshot ditampilkan utuh — rasio asli, tanpa crop */}
+              <Image
+                src={k.src}
+                alt={k.alt}
+                width={k.w}
+                height={k.h}
+                sizes="(min-width: 640px) 420px, 100vw"
+                className="h-auto w-full"
+              />
               <div className="p-6 md:p-7">
                 <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">{k.eyebrow}</div>
                 <h3 className="mt-2 font-display text-xl font-bold tracking-tight text-ink-deep">{k.title}</h3>
