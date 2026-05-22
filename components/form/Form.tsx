@@ -93,18 +93,12 @@ export function LeadForm({
   const leadIdRef = useRef<string>("");
 
   // variant B (direct) skips the contact step — pembayaran re-asks kontak.
-  const total = variant === "B" ? STEPS.length : STEPS.length + 1;
+  const total = STEPS.length + 1;
 
   const next = (val: string) => {
     const updated = { ...a, [STEPS[step].key]: val };
     setA(updated);
-    const isLastQuestion = step === STEPS.length - 1;
-    if (variant === "B" && isLastQuestion) {
-      // no "Kontak kamu" step — submit & lanjut langsung ke pembayaran
-      setTimeout(() => void doSubmit(updated), 280);
-    } else {
-      setTimeout(() => setStep((s) => s + 1), 280);
-    }
+    setTimeout(() => setStep((s) => s + 1), 280);
   };
 
   const doSubmit = async (answers: Answers) => {
