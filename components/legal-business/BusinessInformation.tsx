@@ -25,7 +25,7 @@ export function BusinessInformation() {
               <h3 className="text-lg font-bold text-ink-deep">Legal &amp; Business Information</h3>
               <p className="mt-3 text-sm leading-relaxed text-ink">PT Huahua Edukasi Indonesia</p>
               <p className="mt-2 text-sm text-ink">NIB: 1905260113218</p>
-              <p className="mt-2 text-sm text-ink">Registered Address: Jakarta Timur, DKI Jakarta, Indonesia</p>
+              <p className="mt-2 text-sm text-ink">Registered Address: JL. Pulomas Utara II F No. 1, Jakarta Timur, DKI Jakarta, Indonesia</p>
               <p className="mt-2 text-sm text-ink">Email: admin@huahualearning.com</p>
               <p className="mt-2 text-sm text-ink">
                 WhatsApp: <a href={waLink} className="font-medium text-forest underline decoration-sage">{whatsapp}</a>
