@@ -5,11 +5,17 @@ import { Highlight } from "@/components/ui/hero-highlight";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { formatRupiah } from "@/lib/utils";
 
+// AI Laoshi Basic (1 tahun, Rp 99.000) removed 2026-07-29 — AI Laoshi is being
+// wound down ahead of the native app, so the Basic tier is no longer offered as
+// a bundle bonus. Premium (1 bulan) stays and matches the Paket 3 entitlement.
 const BONUSES = [
   { emoji: "🎁", title: "Modul HSK 1–6", duration: "akses selamanya", normal: 369000 },
-  { emoji: "🎁", title: "AI Laoshi Basic", duration: "1 tahun", normal: 99000 },
   { emoji: "🎁", title: "AI Laoshi Premium", duration: "1 bulan", normal: 199000 }
 ];
+
+// Derived, never hardcoded: the previous literal (667000) would have silently
+// gone stale the moment a bonus was added or removed.
+const BONUS_TOTAL = BONUSES.reduce((sum, b) => sum + b.normal, 0);
 
 export function Bonus() {
   return (
@@ -51,7 +57,7 @@ export function Bonus() {
           <div className="font-display font-bold tracking-tight text-ink-deep text-2xl md:text-3xl leading-tight">
             Total bonus:{" "}
             <Highlight>
-              Rp <NumberTicker value={667000} duration={1.6} />
+              Rp <NumberTicker value={BONUS_TOTAL} duration={1.6} />
             </Highlight>{" "}
             — GRATIS
           </div>
