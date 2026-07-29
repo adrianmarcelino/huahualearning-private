@@ -59,7 +59,7 @@ export function Pricing() {
             Paket & Harga
           </h2>
           <p className="mt-3 text-base leading-relaxed text-ink/70 md:text-lg">
-            Pilih paket yang paling cocok buat targetmu. Semua paket sudah termasuk <span className="font-semibold text-forest">BONUS Modul &amp; AI Laoshi senilai Rp 667.000</span>.
+            Pilih paket yang paling cocok buat targetmu. Semua paket sudah termasuk <span className="font-semibold text-forest">BONUS Modul &amp; AI Laoshi senilai Rp 568.000</span>.
           </p>
         </div>
 
