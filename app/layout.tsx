@@ -20,7 +20,7 @@ const serif = Fraunces({
 
 export const metadata: Metadata = {
   title: "Huahua Private — Les Mandarin 1-on-1",
-  description: "Mandarin privat dengan Laoshi profesional. Bonus stack Rp 667.000+ gratis.",
+  description: "Mandarin privat dengan Laoshi profesional. Bonus stack Rp 568.000+ gratis.",
   metadataBase: new URL("https://private.huahualearning.com")
 };
 
