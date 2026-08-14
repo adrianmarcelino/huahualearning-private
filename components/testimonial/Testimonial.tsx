@@ -6,25 +6,25 @@ import Image from "next/image";
 // Screenshot asli chat WhatsApp murid — semua menyebut pengalaman dengan laoshi.
 const TESTIMONI = [
   {
-    src: "/testimoni/testi-3-helen.jpg",
+    src: "/testimoni/testi-3-helen.webp",
     alt: "Testimoni WhatsApp dari Helen — cocok banget sama laoshi, interaktif banget",
     w: 828,
     h: 1115
   },
   {
-    src: "/testimoni/testi-1-seru.jpg",
+    src: "/testimoni/testi-1-seru.webp",
     alt: "Testimoni WhatsApp — seru banget, suka cara laoshinya mengajar",
     w: 828,
     h: 450
   },
   {
-    src: "/testimoni/testi-4-mirra.jpg",
+    src: "/testimoni/testi-4-mirra.webp",
     alt: "Testimoni WhatsApp dari Mirra — arahan laoshinya ok banget, materi bertahap",
     w: 828,
     h: 1552
   },
   {
-    src: "/testimoni/testi-2-bryan.jpg",
+    src: "/testimoni/testi-2-bryan.webp",
     alt: "Testimoni WhatsApp dari Bryan Henry — laoshinya sangat helpful",
     w: 828,
     h: 506

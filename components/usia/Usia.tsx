@@ -10,7 +10,7 @@ type Kelas = { src: string; alt: string; w: number; h: number; eyebrow: string; 
 
 const KELAS: Kelas[] = [
   {
-    src: "/kelas/kelas-anak.jpg",
+    src: "/kelas/kelas-anak.webp",
     alt: "Kelas privat anak — Laoshi Huahua mengajar materi Nada & Pelafalan",
     w: 480,
     h: 1040,
@@ -19,7 +19,7 @@ const KELAS: Kelas[] = [
     body: "Laoshi sabar, materi dibikin interaktif dan penuh visual biar anak betah belajar. Cocok mulai dari usia 4 tahun."
   },
   {
-    src: "/kelas/kelas-dewasa.jpg",
+    src: "/kelas/kelas-dewasa.webp",
     alt: "Kelas privat dewasa — belajar Mandarin bareng pasangan dan teman",
     w: 818,
     h: 1600,

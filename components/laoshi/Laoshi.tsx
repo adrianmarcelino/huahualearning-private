@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const LAOSHI = [
   {
-    img: "/laoshi/laoshi-1-marchelline.jpg",
+    img: "/laoshi/laoshi-1-marchelline.webp",
     chinese: "罗老师",
     name: "Laoshi Marchelline",
     cert: "Sertifikat HSK 4",
@@ -16,7 +16,7 @@ const LAOSHI = [
     fokus: "Kelas anak, Ujian HSK, Conversation"
   },
   {
-    img: "/laoshi/laoshi-2-mely.jpg",
+    img: "/laoshi/laoshi-2-mely.webp",
     chinese: "戴老师",
     name: "Laoshi Mely",
     cert: "Sertifikat HSK 5",
@@ -25,7 +25,7 @@ const LAOSHI = [
     fokus: "Kelas Anak, Persiapan Ujian HSK"
   },
   {
-    img: "/laoshi/laoshi-3-justina.jpg",
+    img: "/laoshi/laoshi-3-justina.webp",
     chinese: "董老师",
     name: "Laoshi Justina",
     cert: "Sertifikat HSK 6",
@@ -34,7 +34,7 @@ const LAOSHI = [
     fokus: "Conversation sehari-hari, Persiapan kuliah, Ujian HSK"
   },
   {
-    img: "/laoshi/laoshi-4-chacha.jpg",
+    img: "/laoshi/laoshi-4-chacha.webp",
     chinese: "余老师",
     name: "Laoshi Chacha",
     cert: "Sertifikat HSK 6",
@@ -43,7 +43,7 @@ const LAOSHI = [
     fokus: "Kelas dewasa, Conversation, Ujian HSK"
   },
   {
-    img: "/laoshi/laoshi-5-feli.jpg",
+    img: "/laoshi/laoshi-5-feli.webp",
     chinese: "郑老师",
     name: "Laoshi Feli",
     cert:
@@ -53,7 +53,7 @@ const LAOSHI = [
     fokus: "Mengajar anak usia 4 tahun hingga dewasa, conversation, persiapan ujian HSK"
   },
   {
-    img: "/laoshi/laoshi-6-rara.jpg",
+    img: "/laoshi/laoshi-6-rara.webp",
     chinese: "陈老师",
     name: "Laoshi Rara",
     cert: "Sertifikasi HSK 4 & HSKK Intermediate",
@@ -62,7 +62,7 @@ const LAOSHI = [
     fokus: "Kelas beginner, HSK 1-3, Conversation"
   },
   {
-    img: "/laoshi/laoshi-7-feli.jpg",
+    img: "/laoshi/laoshi-7-feli.webp",
     chinese: "徐老师",
     name: "Laoshi Feli",
     cert: "Sertifikasi HSK 5",
