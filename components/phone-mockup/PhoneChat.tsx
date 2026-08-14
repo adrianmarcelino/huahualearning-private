@@ -208,7 +208,7 @@ function Voice({ side, secs, transcript }: { side: "in" | "out"; secs: number; t
         </div>
         <span className="text-[10px] text-zinc-500">0:0{secs}</span>
       </div>
-      {transcript && <div className="mt-1 text-[10px] italic text-zinc-500">"{transcript}"</div>}
+      {transcript && <div className="mt-1 text-[10px] italic text-zinc-500">&quot;{transcript}&quot;</div>}
       <style jsx>{`@keyframes bar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.5)}}`}</style>
     </div>
   );

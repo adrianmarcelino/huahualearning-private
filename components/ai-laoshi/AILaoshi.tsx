@@ -226,7 +226,7 @@ export function AILaoshi() {
             </PhoneFrame>
 
             <p className="mt-4 text-center text-xs italic text-muted">
-              Tap "Tone" atau "Chat" buat tukar fitur. Mode Galak: nyindir tapi tetap ngajarin.
+              Tap &quot;Tone&quot; atau &quot;Chat&quot; buat tukar fitur. Mode Galak: nyindir tapi tetap ngajarin.
             </p>
           </motion.div>
         </div>

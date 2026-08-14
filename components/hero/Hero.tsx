@@ -42,7 +42,7 @@ export function Hero({ variant }: { variant: "A" | "B" }) {
         <h1 className="font-display font-bold tracking-tight text-ink-deep text-4xl leading-[1.15] md:text-5xl lg:text-6xl">
           Dari Cuman Bisa{" "}
           <span className="bg-gradient-to-r from-sage via-forest to-sage bg-clip-text text-transparent">
-            "你好"
+            &quot;你好&quot;
           </span>{" "}
           Sampai Lancar Conversation.
         </h1>

@@ -26,7 +26,7 @@ export function FinalCTA() {
           >
             <div className="text-xs font-bold uppercase tracking-widest text-muted">Opsi A</div>
             <p className="mt-3 text-base text-muted md:text-lg">
-              Masih bilang "besok mulai belajar"
+              Masih bilang &quot;besok mulai belajar&quot;
             </p>
           </motion.div>
 
