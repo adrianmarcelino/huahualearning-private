@@ -5,32 +5,18 @@ export function BusinessInformation() {
   return (
     <footer id="business-information" className="relative bg-white py-20 md:py-28">
       <div className="container mx-auto max-w-5xl px-4">
-        <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">📄 Legal & Business Info</div>
+        <div className="text-xs font-bold uppercase tracking-[0.2em] text-sage">📄 Kontak</div>
         <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink-deep md:text-4xl">
-          Informasi Bisnis & Bukti Legal
+          Kontak &amp; Pembayaran
         </h2>
 
         <div className="mt-8 rounded-2xl border border-sage/15 bg-cream/50 p-6 md:p-8">
-          <div className="grid gap-8 md:grid-cols-2">
-            <div>
-              <h3 className="text-lg font-bold text-ink-deep">Our Brands</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink">
-                Huahua Learning is a brand owned and operated by PT Huahua Edukasi Indonesia.
-              </p>
-              <p className="mt-2 text-sm text-ink">Legal entity: PT Huahua Edukasi Indonesia</p>
-              <p className="mt-2 text-sm text-ink">Email: admin@huahualearning.com</p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-ink-deep">Legal &amp; Business Information</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink">PT Huahua Edukasi Indonesia</p>
-              <p className="mt-2 text-sm text-ink">NIB: 1905260113218</p>
-              <p className="mt-2 text-sm text-ink">Registered Address: JL. Pulomas Utara II F No. 1, Jakarta Timur, DKI Jakarta, Indonesia</p>
-              <p className="mt-2 text-sm text-ink">Email: admin@huahualearning.com</p>
-              <p className="mt-2 text-sm text-ink">
-                WhatsApp: <a href={waLink} className="font-medium text-forest underline decoration-sage">{whatsapp}</a>
-              </p>
-            </div>
+          <div>
+            <h3 className="text-lg font-bold text-ink-deep">Hubungi Kami</h3>
+            <p className="mt-3 text-sm text-ink">Email: admin@huahualearning.com</p>
+            <p className="mt-2 text-sm text-ink">
+              WhatsApp: <a href={waLink} className="font-medium text-forest underline decoration-sage">{whatsapp}</a>
+            </p>
           </div>
 
           <div className="mt-8 border-t border-sage/20 pt-6">
