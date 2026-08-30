@@ -59,7 +59,7 @@ export function Hero({ variant }: { variant: "A" | "B" }) {
           {[
             "Bebas request materi — HSK, bisnis, traveling, conversation",
             "Laoshi bersertifikat & berpengalaman",
-            "Bonus modul & AI Laoshi GRATIS"
+            "Bonus modul HSK 1–6 GRATIS"
           ].map((item) => (
             <li key={item} className="flex items-start gap-2.5">
               <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-sage text-white">
