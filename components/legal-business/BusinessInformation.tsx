@@ -29,7 +29,7 @@ export function BusinessInformation() {
               Untuk detail harga paket, silakan lihat bagian <a href="#pricing" className="font-medium text-forest underline decoration-sage">Paket &amp; Harga</a>.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-ink">
-              Checkout dan pembayaran dilakukan melalui <a href="https://www.huahualearning.com/pay-private" className="font-medium text-forest underline decoration-sage">www.huahualearning.com/pay-private</a>.
+              Checkout dan pembayaran dilakukan melalui <a href="https://app.huahualearning.com/private" className="font-medium text-forest underline decoration-sage">app.huahualearning.com/private</a>.
             </p>
           </div>
         </div>

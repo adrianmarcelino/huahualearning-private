@@ -11,7 +11,15 @@ import { submitLead, genLeadId, isValidIndoPhone } from "@/lib/apps-script";
 import { fbqTrack } from "@/lib/fpixel";
 import { cn } from "@/lib/utils";
 
-const PAY_REDIRECT = "https://www.huahualearning.com/pay-private";
+// Checkout moved to the app domain (owner order 2026-10-13): Xendit, same account as /promo.
+const PAY_REDIRECT = "https://app.huahualearning.com/private";
+
+// The form's answers pick the package the checkout opens on (8 sesi; the buyer can still change it there).
+function packageFor(answers: Answers) {
+  const materi = (answers.material_choice ?? "").startsWith("Materi Request") ? "req" : "hsk";
+  const format = (answers.group_size ?? "").startsWith("Sendiri") ? "1on1" : "group";
+  return `${materi}-${format}-8`;
+}
 
 const STEPS = [
   {
@@ -126,7 +134,7 @@ export function LeadForm({
       } as any);
     } catch {}
     // Meta Pixel — form completed
-    fbqTrack("Lead", { value: 4350000, currency: "IDR" });
+    fbqTrack("Lead", { value: 4650000, currency: "IDR" });
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -140,20 +148,12 @@ export function LeadForm({
   const onLoaderDone = () => {
     setLoading(false);
     if (variant === "B") {
-      const params = new URLSearchParams({
-        lead_id: leadIdRef.current,
-        name,
-        whatsapp: wa,
-        goal: a.goal ?? "",
-        level: a.level ?? "",
-        group_size: a.group_size ?? "",
-        material_choice: a.material_choice ?? "",
-        timing: a.timing ?? "",
-        notes
-      });
+      // The answers already went to the team's sheet (submitLead); the checkout only needs the
+      // package and the contact to prefill.
+      const params = new URLSearchParams({ paket: packageFor(a), name, whatsapp: wa });
       // Meta Pixel — heading to the payment page
       fbqTrack("InitiateCheckout");
-      // Forward Meta + UTM tracking params from current page to /pay-private
+      // Forward Meta + UTM tracking params from current page to the checkout
       const trackingKeys = ["fbclid", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
       const currentParams = new URLSearchParams(window.location.search);
       trackingKeys.forEach((key) => {

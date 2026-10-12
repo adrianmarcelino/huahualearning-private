@@ -10,7 +10,7 @@ const STEPS = [
   },
   {
     title: "Bayar",
-    description: "Transfer / Midtrans. Setelah masuk, langsung di-WA tim kami."
+    description: "QRIS, e-wallet, atau virtual account lewat Xendit. Setelah masuk, langsung di-WA tim kami."
   },
   {
     title: "Kita WA buat atur jadwal & laoshi",

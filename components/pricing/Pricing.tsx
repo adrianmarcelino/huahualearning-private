@@ -10,16 +10,16 @@ const SUB1: Group[] = [
   {
     title: "1-on-1",
     packs: [
-      { label: "8 sesi", price: 2250000 },
-      { label: "16 sesi ⭐", price: 4350000, featured: true }
+      { label: "8 sesi", price: 2550000 },
+      { label: "16 sesi ⭐", price: 4650000, featured: true }
     ]
   },
   {
     title: "Grup",
     subtitle: "2+ orang — harga sama mau berdua, bertiga, atau lebih",
     packs: [
-      { label: "8 sesi", price: 2999000 },
-      { label: "16 sesi", price: 4999000 }
+      { label: "8 sesi", price: 3499000 },
+      { label: "16 sesi", price: 5499000 }
     ]
   }
 ];
@@ -28,16 +28,16 @@ const SUB2: Group[] = [
   {
     title: "1-on-1",
     packs: [
-      { label: "8 sesi", price: 2450000 },
-      { label: "16 sesi ⭐", price: 4550000, featured: true }
+      { label: "8 sesi", price: 2750000 },
+      { label: "16 sesi ⭐", price: 4850000, featured: true }
     ]
   },
   {
     title: "Grup",
     subtitle: "2+ orang — bebas berapa pun",
     packs: [
-      { label: "8 sesi", price: 3299000 },
-      { label: "16 sesi", price: 5299000 }
+      { label: "8 sesi", price: 3699000 },
+      { label: "16 sesi", price: 5699000 }
     ]
   }
 ];
@@ -82,13 +82,13 @@ export function Pricing() {
   );
 }
 
-// Harga grup dibagi 2 orang (kasus paling mahal per orang) → "≈ Rp 1,5jt".
+// Harga grup dibagi 2 orang (kasus paling mahal per orang) → "≈ Rp 1,7jt".
 function perPerson(total: number) {
   const jt = (total / 2 / 1_000_000).toFixed(1).replace(".", ",");
   return `Rp ${jt}jt`;
 }
 
-// Harga normal (coret) = harga akhir × 1.4 — rumus sama persis dengan /pay-private.
+// Harga normal (coret) = harga akhir × 1.4 — rumus lama /pay-private, dipertahankan.
 function getCrossed(price: number) {
   return Math.round(price * 1.4);
 }
