@@ -1,21 +1,13 @@
 "use client";
 
 import { TracingBeam } from "@/components/ui/tracing-beam";
-import { Highlight } from "@/components/ui/hero-highlight";
-import { NumberTicker } from "@/components/ui/number-ticker";
-import { formatRupiah } from "@/lib/utils";
 
-// AI Laoshi is retired (owner order 2026-08-30): it is no longer granted with
-// any purchase, so it can no longer be advertised as a bonus. Basic went first
-// (2026-07-29), Premium follows now. BONUS_TOTAL is derived, so the headline
-// total corrects itself.
+// Owner order 2026-10-13: the bonus is free access to the Huahua app, a Premium account for 3 months, granted
+// automatically to the app account the buyer names at checkout (app.huahualearning.com/private). It replaces the
+// HSK 1–6 module. No "normal" price is shown: none was given for it.
 const BONUSES = [
-  { emoji: "🎁", title: "Modul HSK 1–6", duration: "akses selamanya", normal: 369000 }
+  { emoji: "🎁", title: "Free akses aplikasi Huahua", duration: "Akun Premium 3 bulan, aktif otomatis di akunmu" }
 ];
-
-// Derived, never hardcoded: the previous literal (667000) would have silently
-// gone stale the moment a bonus was added or removed.
-const BONUS_TOTAL = BONUSES.reduce((sum, b) => sum + b.normal, 0);
 
 export function Bonus() {
   return (
@@ -42,8 +34,7 @@ export function Bonus() {
                     <p className="mt-1 text-sm text-ink/70">{b.duration}</p>
                   </div>
                 </div>
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-xs text-muted line-through">Normal {formatRupiah(b.normal)}</span>
+                <div className="mt-5 flex items-center justify-end">
                   <span className="rounded-full bg-sage px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-cream">
                     GRATIS
                   </span>
@@ -54,14 +45,7 @@ export function Bonus() {
         </TracingBeam>
 
         <div className="mx-auto mt-12 max-w-2xl text-center">
-          <div className="font-display font-bold tracking-tight text-ink-deep text-2xl md:text-3xl leading-tight">
-            Total bonus:{" "}
-            <Highlight>
-              Rp <NumberTicker value={BONUS_TOTAL} duration={1.6} />
-            </Highlight>{" "}
-            — GRATIS
-          </div>
-          <p className="mt-4 text-sm leading-relaxed text-ink/70 md:text-base">
+          <p className="text-sm leading-relaxed text-ink/70 md:text-base">
             ➕ Bonus tambahan: Materi ajar & rekaman kelas
           </p>
           <a

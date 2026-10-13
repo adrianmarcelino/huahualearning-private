@@ -21,7 +21,7 @@ const serif = Fraunces({
 
 export const metadata: Metadata = {
   title: "Huahua Private — Les Mandarin 1-on-1",
-  description: "Mandarin privat dengan Laoshi profesional. Bonus modul HSK 1–6 senilai Rp 369.000 gratis.",
+  description: "Mandarin privat dengan Laoshi profesional. Bonus akses Premium aplikasi Huahua 3 bulan.",
   metadataBase: new URL("https://private.huahualearning.com")
 };
 
